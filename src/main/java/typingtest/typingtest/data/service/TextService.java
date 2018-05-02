@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import typingtest.typingtest.data.model.Text;
 import typingtest.typingtest.data.repository.TextRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigInteger;
+import java.util.*;
 
 @Service
 public class TextService {
@@ -30,6 +30,22 @@ public class TextService {
 
     public void addText(Text text) {
         textRepository.save(text);
+    }
+
+    public List<Double> getBestScoresForText(Long textId){
+        return textRepository.getBestScoresForText(textId);
+    }
+
+    public  Map<Long, Double> getScoresForText(Long textId){
+        List<Object[]> result = textRepository.getScoresForText(textId);
+        Map<Long, Double> map = null;
+        if(result != null && !result.isEmpty()){
+            map = new TreeMap<>();
+            for (Object[] object : result) {
+                map.put(((BigInteger)object[0]).longValue(), (Double) object[1]);
+            }
+        }
+        return map;
     }
 
     public void updateText(Text text) {

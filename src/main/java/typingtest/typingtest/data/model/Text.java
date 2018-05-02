@@ -1,6 +1,7 @@
 package typingtest.typingtest.data.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
@@ -9,7 +10,12 @@ public class Text {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank
     private String text;
+
+    @NotBlank
+    private String author;
 
     @OneToMany(mappedBy = "text")
     private Set<UserText> userTexts;
@@ -17,8 +23,15 @@ public class Text {
     public Text() {
     }
 
-    public Text(String text) {
+    public Text(@NotBlank String text, @NotBlank String author) {
         this.text = text;
+        this.author = author;
+    }
+
+    public Text(@NotBlank String text, @NotBlank String author, Set<UserText> userTexts) {
+        this.text = text;
+        this.author = author;
+        this.userTexts = userTexts;
     }
 
     public Long getId() {
@@ -35,6 +48,14 @@ public class Text {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public Set<UserText> getUserTexts() {
