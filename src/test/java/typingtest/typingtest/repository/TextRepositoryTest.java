@@ -4,13 +4,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import typingtest.typingtest.data.model.Text;
 import typingtest.typingtest.data.model.User;
 import typingtest.typingtest.data.model.UserText;
 import typingtest.typingtest.data.repository.TextRepository;
-import typingtest.typingtest.data.repository.UserRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,7 +25,7 @@ public class TextRepositoryTest {
     private TextRepository textRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private TestEntityManager entityManager;
 
     @Test
     public void givenTextAndUsersInDB_WhenGetScoresForText_ThenReturnProperScores() {
@@ -44,9 +44,10 @@ public class TextRepositoryTest {
         user1.getUserTexts().add(userText1);
         user2.getUserTexts().add(userText2);
 
-        textRepository.save(text);
-        userRepository.save(user1);
-        userRepository.save(user2);
+        entityManager.persist(text);
+        entityManager.persist(user1);
+        entityManager.persist(user2);
+        entityManager.flush();
 
         // when
         List<Object[]> scoresForText = textRepository.getScoresForText(text.getId());
@@ -64,7 +65,7 @@ public class TextRepositoryTest {
     public void givenTextAndUsersInDB_WhenGetBestScoresForText_ThenReturnProperScores() {
         // given
         Text text = new Text("Example text", "Example author");
-        textRepository.save(text);
+        entityManager.persist(text);
 
         final int scoresToPutInDB = 15;
 
@@ -73,8 +74,10 @@ public class TextRepositoryTest {
             Double score = new Random().nextDouble() * 100.0;
             UserText userText = new UserText(user, text, score);
             user.getUserTexts().add(userText);
-            userRepository.save(user);
+            entityManager.persist(user);
         }
+
+        entityManager.flush();
 
         // when
         List<Double> bestScoresForText = textRepository.getBestScoresForText(text.getId());

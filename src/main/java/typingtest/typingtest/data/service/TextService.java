@@ -14,7 +14,7 @@ public class TextService {
     private TextRepository textRepository;
 
     @Autowired
-    public TextService(TextRepository textRepository) {
+    public void setTextRepository(TextRepository textRepository) {
         this.textRepository = textRepository;
     }
 
@@ -46,13 +46,5 @@ public class TextService {
             }
         }
         return map;
-    }
-
-    public void updateText(Text text) {
-        textRepository.save(text);
-    }
-
-    public void deleteText(Long textId) {
-        textRepository.deleteById(textId);
     }
 }
