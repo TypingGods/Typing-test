@@ -6,6 +6,7 @@ import typingtest.typingtest.data.model.Text;
 import typingtest.typingtest.data.model.User;
 import typingtest.typingtest.data.model.UserText;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -17,9 +18,13 @@ public class MainService {
     private TextService textService;
 
     @Autowired
-    public MainService(UserService userService, TextService textService) {
-        this.userService = userService;
+    public void setTextService(TextService textService) {
         this.textService = textService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     public Text getText(int textId) {
@@ -28,7 +33,7 @@ public class MainService {
 
     public Map<User,Double> getScoresForText(int textId) {
         Map<Long, Double> result = textService.getScoresForText((long) textId);
-        Map<User, Double>  map = new TreeMap<>();
+        Map<User, Double>  map = new TreeMap<>(Comparator.comparing(User::getId));
         if(result != null && !result.isEmpty()){
             result.forEach((aLong, aDouble) -> map.put(userService.getUser(aLong), aDouble));
         }

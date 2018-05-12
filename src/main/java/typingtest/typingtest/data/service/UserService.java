@@ -11,8 +11,8 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository personRepository) {
-        this.userRepository = personRepository;
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public User getUser(Long userId) {
