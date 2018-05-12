@@ -34,6 +34,10 @@ public class Text {
         this.userTexts = userTexts;
     }
 
+    public int getSize() {
+        return text.length();
+    }
+
     public Long getId() {
         return id;
     }
