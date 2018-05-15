@@ -1,7 +1,9 @@
 language: java
 jdk: oraclejdk8
  
-script:
+script: 
+  - cd Typing-test 
+  - mvn clean install
 
 before_install:
   - chmod +x mvnw
