@@ -5,4 +5,4 @@ install: true
 script: mvn test
 
 before_install:
-  openssl aes-256-cbc -K $encrypted_c040dc604dfb_key -iv $encrypted_c040dc604dfb_iv -in application.properties.enc -out src/main/resources/application.properties -d
+  openssl aes-256-cbc -K $encrypted_c040dc604dfb_key -iv $encrypted_c040dc604dfb_iv -in src/main/resources/application.properties.enc -out src/main/resources/application.properties -d
