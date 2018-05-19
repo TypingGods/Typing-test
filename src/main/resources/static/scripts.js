@@ -12,6 +12,10 @@ var TypingTest = {
     speedInDOM: undefined,
     accuracyInDOM: undefined,
     counter: undefined,
+    checkPoints: undefined,
+    typingPaceMap: undefined,
+    currentCheckPoint: 1,
+    lastCheckPoint: 0,//time when last checkPoint speed measuring started
     init: function () {
         var startButton = document.getElementById('start-button');
         startButton.onclick = function () {
@@ -40,6 +44,8 @@ var TypingTest = {
         this.speedInDOM = document.getElementById('speed');
         this.accuracyInDOM = document.getElementById('accuracy');
         this.enteredTextInDOM = document.getElementById('entered-text');
+        TypingTest.makeCheckPoints();
+        TypingTest.typingPaceMap = new Map();
     },
     readLetter: function (e) {
         if (TypingTest.testStarted) {
@@ -62,6 +68,7 @@ var TypingTest = {
                     TypingTest.enteredTextInDOM.removeChild(TypingTest.enteredTextInDOM.lastChild);
                 }
             }
+            TypingTest.typingPace();
         }
     },
     typingSpeedCPM: function () {
@@ -73,6 +80,41 @@ var TypingTest = {
         } else {
             return 100;
         }
+    },
+    makeCheckPoints: function() {
+        var textLength = this.testText.length;
+        var numOfCheckPoints = 5;
+
+        var checkPoints = new Array();
+        var checkPointLength = Math.floor(textLength/numOfCheckPoints);
+        var divisionRest = textLength % numOfCheckPoints;
+
+        for(var i = 0; i < numOfCheckPoints; i++){
+            checkPoints.push(i * checkPointLength - 1);
+        }
+        //last checkPoint may be longer
+        checkPoints.push((numOfCheckPoints) * checkPointLength - 1 + divisionRest);
+
+        this.checkPoints = checkPoints;
+        console.log(this.checkPoints);
+    },
+    typingPace: function() {
+        console.log("currentLetter: " + this.currentLetter);
+        if(this.currentLetter == this.checkPoints[this.currentCheckPoint]) {
+            var temp = this.currentCheckPoint;
+            var numOfLetters = this.checkPoints[temp] - this.checkPoints[temp-1];
+            var time = this.initialTime - this.timeLeft;
+            var currentSpeed = this.currentTypingSpeed(numOfLetters, this.lastCheckPoint, time);
+
+            console.log("pace: " + currentSpeed);
+
+            this.typingPaceMap.set(this.checkPoints[temp], currentSpeed);
+            this.lastCheckPoint = time;
+            this.currentCheckPoint++;
+        }
+    },
+    currentTypingSpeed: function(numOfLetters, startTime, endTime){
+        return (numOfLetters/(endTime - startTime)*60).toFixed(2);
     }
 
 };
