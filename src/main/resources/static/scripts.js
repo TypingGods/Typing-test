@@ -6,7 +6,7 @@ var TypingTest = {
     currentLetter: 0,
     wrongLetters: 0,
     textLength: 0,
-    testText: "Życie jest jak pudełko czekoladek. Nigdy nie wiesz, co się trafi.",
+    testText: "Life is like a box of chocolates. You never know what you're gonna get.",
     enteredTextInDOM: undefined,
     timeInDOM: undefined,
     speedInDOM: undefined,
@@ -37,6 +37,7 @@ var TypingTest = {
             }, 1000);
         };
         window.addEventListener("keydown", this.readLetter);
+        window.addEventListener("keypress", this.readLetter);
         document.getElementById('reset-button');
         var testText = document.getElementById('test-text');
         testText.innerHTML = TypingTest.testText;
@@ -50,8 +51,11 @@ var TypingTest = {
     readLetter: function (e) {
         if (TypingTest.testStarted) {
             var enteredLetter = e.key;
-            console.log(enteredLetter);
-            if (e.keyCode > 31 && e.keyCode < 127) {
+            //console.log(enteredLetter);
+            //console.log(e.keyCode);
+            if (e.type === "keypress" && e.keyCode > 31 && e.keyCode < 127) {
+                console.log('keypress');
+                console.log(e.keyCode);
                 var newNode = document.createElement("span");
                 newNode.innerHTML = enteredLetter;
                 if (enteredLetter === TypingTest.testText.charAt(TypingTest.currentLetter)) {
@@ -60,9 +64,11 @@ var TypingTest = {
                     newNode.style["background-color"] = "red";
                     TypingTest.wrongLetters += 1;
                 }
+                console.log(newNode);
                 TypingTest.enteredTextInDOM.appendChild(newNode);
                 TypingTest.currentLetter += 1;
-            } else if (enteredLetter === "Backspace") {
+            } else if (e.type === 'keydown' && enteredLetter === "Backspace") {
+                console.log('keydown');
                 if (TypingTest.enteredTextInDOM.childElementCount > 0) {
                     TypingTest.currentLetter -= 1;
                     TypingTest.enteredTextInDOM.removeChild(TypingTest.enteredTextInDOM.lastChild);
@@ -115,7 +121,27 @@ var TypingTest = {
     },
     currentTypingSpeed: function(numOfLetters, startTime, endTime){
         return (numOfLetters/(endTime - startTime)*60).toFixed(2);
+    },
+    calculatePointsForSpeed: function (){
+        var speedPoints;
+        if (Game.typingSpeedCPM() < 150) {
+            speedPoints = 0;
+        } else if (Game.typingSpeedCPM() > 500){
+            speedPoints = 70;
+        } else {
+            speedPoints = ((Game.typingSpeedCPM()/5) - 30).toFixed();
+        }
+        return speedPoints;
+    },
+    calculatePointsForAccuracy: function (){
+    var accuracyPoints;
+    if (Game.typingAccuracy() <= 90) {
+        accuracyPoints = 0;
+    } else {
+        accuracyPoints = ((Game.typingAccuracy() - 90).toFixed(0)) * 3;
     }
+    return accuracyPoints;
+}
 
 };
 TypingTest.init();
