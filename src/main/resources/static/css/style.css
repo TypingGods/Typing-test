@@ -1,10 +1,11 @@
 .titleHeader {
     font-family: "Times New Roman", Times, serif;
     margin-bottom: 50px;
-    background-color: #ff4545;
+    background-color: #942323;
     padding: 20px;
     border-radius: 20px;
     color: white;
+    padding-left: 40px;
 
 }
 
@@ -17,10 +18,10 @@
     margin-right: 20px;
     margin-bottom: 40px;
     padding-bottom: 10px;
-    border-bottom: solid #ff4545 1px;
+    border-bottom: solid #942323 1px;
 }
 
-#test-text {
+.texts {
     margin-left: 20px;
     letter-spacing: 1px;
 }
