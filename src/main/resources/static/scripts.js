@@ -6,16 +6,16 @@ var TypingTest = {
     currentLetter: 0,
     wrongLetters: 0,
     textLength: 0,
-    testText: "Life is like a box of chocolates. You never know what you're gonna get.",
+    testText: "Life is like a box of chocolates. You never know what you're gonna get - * & % 1  >",
     enteredTextInDOM: undefined,
     timeInDOM: undefined,
     speedInDOM: undefined,
-    accuracyInDOM: undefined,
     counter: undefined,
     checkPoints: undefined,
     typingPaceMap: undefined,
     currentCheckPoint: 1,
     lastCheckPoint: 0,//time when last checkPoint speed measuring started
+
     init: function () {
         var startButton = document.getElementById('start-button');
         startButton.onclick = function () {
@@ -30,7 +30,6 @@ var TypingTest = {
                     TypingTest.timeLeft -= 1;
                     TypingTest.timeInDOM.innerHTML = TypingTest.timeLeft;
                     TypingTest.speedInDOM.innerHTML = TypingTest.typingSpeedCPM();
-                    TypingTest.accuracyInDOM.innerHTML = TypingTest.typingAccuracy().toFixed(0) + '%';
                 } else {
                     TypingTest.testStarted = false;
                 }
@@ -43,7 +42,6 @@ var TypingTest = {
         testText.innerHTML = TypingTest.testText;
         this.timeInDOM = document.getElementById('time');
         this.speedInDOM = document.getElementById('speed');
-        this.accuracyInDOM = document.getElementById('accuracy');
         this.enteredTextInDOM = document.getElementById('entered-text');
         TypingTest.makeCheckPoints();
         TypingTest.typingPaceMap = new Map();
