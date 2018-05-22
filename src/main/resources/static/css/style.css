@@ -1,0 +1,26 @@
+.titleHeader {
+    font-family: "Times New Roman", Times, serif;
+    margin-bottom: 50px;
+    background-color: #ff4545;
+    padding: 20px;
+    border-radius: 20px;
+    color: white;
+
+}
+
+.jumbotron {
+    background-color: white;
+}
+
+#typingPanel {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 40px;
+    padding-bottom: 10px;
+    border-bottom: solid #ff4545 1px;
+}
+
+#test-text {
+    margin-left: 20px;
+    letter-spacing: 1px;
+}
