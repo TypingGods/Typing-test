@@ -12,7 +12,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse navbar-default navbar-static-top navbar-fixed-top" >
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Main page</a>
@@ -26,54 +26,51 @@
     </div>
 </nav>
 <div class="container">
-    <div class="jumbotron">
-        <h2 class="titleHeader">Typing test</h2>
-
-        <div class="row" id="typingPanel">
-            <div class="col-xs-6">
-                <button type="button" class="btn btn-primary btn-lg" id="start-button">Start</button>
-                <button type="button" class="btn btn-primary btn-lg" id="reset-button">Reset</button>
-            </div>
-            <div class="col-xs-3">
-                <h3>Speed (CPM): <span id="speed">0</span></h3>
-            </div>
-            <div class="col-xs-3">
-                <h3>Time: <span id="time">120</span></h3>
-            </div>
+    <div>
+        <button type="button" class="btn btn-primary btn-lg" id="start-button">Start</button>
+        <button type="button" class="btn btn-primary btn-lg" id="reset-button">Reset</button>
+    </div>
+    <h2 class="text-center titleHeader">TYPING SPEED TEST</h2>
+    <div class="row" id="typingPanel">
+        <div class="col-xs-6 text-right">
+            <span id="speed">0.00</span>
+            <div class="units" id="unitSpeed">CHARS / MIN</div>
         </div>
-
+        <div class="col-xs-6 text-left">
+            <span id="time">120</span>
+            <div class="units" id="unitTime">SEC</div>
+        </div>
+    </div>
+    <div id="textWrapper">
         <div>
-            <p id="test-text" class="texts">Tutaj będzie pojawiał się tekst. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+            <p id="test-text" class="texts">
+            </p>
         </div>
         <div>
-            <p id="entered-text">
+            <p id="entered-text" class="texts">
 
             </p>
         </div>
-        <div id="nickname-modal" class="modal fade in" role="dialog">
-            <div class="modal-dialog">
+    </div>
+    <div id="nickname-modal" class="modal fade in" role="dialog">
+        <div class="modal-dialog">
 
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" onclick="toggleVisibility('nickname-modal')">&times;</button>
-                        <h4 class="modal-title">Typing test is done</h4>
-                    </div>
-                    <div class="modal-body">
-                        <label>Insert your name</label>
-                        <input type="text" name="nickname" id="nickname-input">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" onclick="sendRequest()">Confirm</button>
-                    </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="toggleVisibility('nickname-modal')">&times;</button>
+                    <h4 class="modal-title">Typing test is done</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Insert your name</label>
+                    <input type="text" name="nickname" id="nickname-input">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="sendRequest()">Confirm</button>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 <script src="scripts.js" class="texts">
 </script>

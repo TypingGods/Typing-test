@@ -1,27 +1,52 @@
-.titleHeader {
-    font-family: "Times New Roman", Times, serif;
+body {
+    padding-top:30px;
+}
+.container {
+    font-family: Georgia, Times, "Times New Roman", serif;
     margin-bottom: 50px;
-    background-color: #942323;
-    padding: 20px;
-    border-radius: 20px;
+    background: linear-gradient(to bottom right, #174f56, #7fd3c8);
+    padding: 50px;
     color: white;
-    padding-left: 40px;
-
+    width: 100%;
 }
 
-.jumbotron {
-    background-color: white;
+.titleHeader {
+    font-size: 45px;
 }
 
 #typingPanel {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 40px;
-    padding-bottom: 10px;
-    border-bottom: solid #942323 1px;
+    padding: 30px;
+    font-size: 38px;
+    border-bottom: solid white 3px;
+    margin-bottom: 50px;
 }
 
 .texts {
+    font-size: 30px;
     margin-left: 20px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+}
+
+#speed {
+    padding-right: 50px;
+}
+
+#time {
+    padding-left: 50px;
+}
+.units {
+    font-size: 15px;
+} 
+
+#unitSpeed {
+    padding-right: 35px;
+}
+
+#unitTime {
+    padding-left: 70px;
+}
+
+#textWrapper {
+    margin: 0 auto;
+   width: 70%;
 }
