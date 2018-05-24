@@ -6,7 +6,7 @@ var TypingTest = {
     currentLetter: 0,
     wrongLetters: 0,
     textLength: 0,
-    testText: "Life is like a box of chocolates. You never know what you're gonna get - * & % 1  >",
+    testText: "Life is like",// a box of chocolates. You never know what you're gonna get",
     enteredTextInDOM: undefined,
     timeInDOM: undefined,
     speedInDOM: undefined,
@@ -25,6 +25,10 @@ var TypingTest = {
             TypingTest.currentSpeed = 0;
             TypingTest.currentLetter = 0;
             TypingTest.enteredTextInDOM.innerHTML = "";
+            window.addEventListener("keydown", TypingTest.readLetter);
+            window.addEventListener("keypress", TypingTest.readLetter);
+            if(typeof this.counter !== undefined)
+                window.clearInterval(this.counter);
             this.counter = window.setInterval(function () {
                 if (TypingTest.timeLeft > 0) {
                     TypingTest.timeLeft -= 1;
@@ -34,9 +38,9 @@ var TypingTest = {
                     TypingTest.testStarted = false;
                 }
             }, 1000);
+            startButton.blur();
         };
-        window.addEventListener("keydown", this.readLetter);
-        window.addEventListener("keypress", this.readLetter);
+
         document.getElementById('reset-button');
         var testText = document.getElementById('test-text');
         testText.innerHTML = TypingTest.testText;
@@ -55,6 +59,7 @@ var TypingTest = {
                 console.log('keypress');
                 console.log(e.keyCode);
                 var newNode = document.createElement("span");
+                newNode.style["white-space"] = "pre-wrap";
                 newNode.innerHTML = enteredLetter;
                 if (enteredLetter === TypingTest.testText.charAt(TypingTest.currentLetter)) {
                     newNode.style["background-color"] = "green";
@@ -65,6 +70,12 @@ var TypingTest = {
                 console.log(newNode);
                 TypingTest.enteredTextInDOM.appendChild(newNode);
                 TypingTest.currentLetter += 1;
+                if(TypingTest.currentLetter == TypingTest.testText.length) {
+                    window.clearInterval(this.counter);
+                    window.removeEventListener("keydown", TypingTest.readLetter, false);
+                    window.removeEventListener("keypress", TypingTest.readLetter, false);
+                    TypingTest.showModal();
+                }
             } else if (e.type === 'keydown' && enteredLetter === "Backspace") {
                 console.log('keydown');
                 if (TypingTest.enteredTextInDOM.childElementCount > 0) {
@@ -131,15 +142,41 @@ var TypingTest = {
         }
         return speedPoints;
     },
-    calculatePointsForAccuracy: function (){
-    var accuracyPoints;
-    if (Game.typingAccuracy() <= 90) {
-        accuracyPoints = 0;
-    } else {
-        accuracyPoints = ((Game.typingAccuracy() - 90).toFixed(0)) * 3;
-    }
-    return accuracyPoints;
-}
+    calculatePointsForAccuracy: function () {
+        var accuracyPoints;
+        if (Game.typingAccuracy() <= 90) {
+            accuracyPoints = 0;
+        } else {
+            accuracyPoints = ((Game.typingAccuracy() - 90).toFixed(0)) * 3;
+        }
+        return accuracyPoints;
+    },
+    showModal: function () {
+        var modal = document.getElementById("nickname-modal");
+        modal.style.display = "block";
+    },
 
 };
 TypingTest.init();
+
+function toggleVisibility(id){
+    var element = document.getElementById(id);
+    element.style.display = element.style.display == "block" ? "none" : "block";
+};
+
+function sendRequest(){
+    var nickname = document.getElementById("nickname-input").value;
+    toggleVisibility("nickname-modal");
+
+    var url = document.URL + "/database";
+    $.post(url,
+        {
+            nickname : nickname,
+            accuracy: "10",
+            speed: "10",
+        },
+        function(data){
+            $("html").html(data);
+        });
+
+};
