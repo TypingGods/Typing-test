@@ -15,10 +15,10 @@
 <nav class="navbar navbar-inverse navbar-default navbar-static-top navbar-fixed-top" >
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Main page</a>
+            <a class="navbar-brand" th:href="@{'/'}">Main page</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a href="#">Best scores</a></li>
+            <li><a th:href="@{'/database'}">Best scores</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#">About project</a></li>
@@ -43,7 +43,8 @@
     </div>
     <div id="textWrapper">
         <div>
-            <p id="test-text" class="texts">
+            <p id="text-id" hidden th:text="${text.getId()}"></p>
+            <p id="test-text" class="texts" th:text="${text.getText()}">
             </p>
         </div>
         <div>
