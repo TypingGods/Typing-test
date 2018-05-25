@@ -50,3 +50,7 @@ body {
     margin: 0 auto;
    width: 70%;
 }
+
+button[disabled], .btn.disabled, .btn[disabled] {
+    cursor: pointer;
+}
