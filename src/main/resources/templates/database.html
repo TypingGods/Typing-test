@@ -29,7 +29,7 @@
     <div class="jumbotron">
         <h1 class="text-center">Best scores</h1>
 
-        <div th:if="textList">
+        <div th:if="${textList}">
             <ul class="list-group" th:each="text : ${textList}">
                 <li class="list-group-item">
                     <p th:text="${text.getKey().getText()}"></p>
