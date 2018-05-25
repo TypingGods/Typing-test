@@ -4,6 +4,7 @@ var TypingTest = {
     currentSpeed: 0,
     testStarted: false,
     currentLetter: 0,
+    correctLetters: 0,
     wrongLetters: 0,
     textLength: 0,
     testText: "Life is like",// a box of chocolates. You never know what you're gonna get",
@@ -27,9 +28,9 @@ var TypingTest = {
             TypingTest.enteredTextInDOM.innerHTML = "";
             window.addEventListener("keydown", TypingTest.readLetter);
             window.addEventListener("keypress", TypingTest.readLetter);
-            if(typeof this.counter !== undefined)
-                window.clearInterval(this.counter);
-            this.counter = window.setInterval(function () {
+            if(typeof TypingTest.counter !== undefined)
+                clearInterval(TypingTest.counter);
+            TypingTest.counter = setInterval(function () {
                 if (TypingTest.timeLeft > 0) {
                     TypingTest.timeLeft -= 1;
                     TypingTest.timeInDOM.innerHTML = TypingTest.timeLeft;
@@ -39,9 +40,12 @@ var TypingTest = {
                 }
             }, 1000);
             startButton.blur();
+            document.getElementById('start-button').disabled = true;
         };
-
-        document.getElementById('reset-button');
+        var resetButton = document.getElementById('reset-button');
+        resetButton.onclick = function () {
+            window.location.reload(true);
+        };
         var testText = document.getElementById('test-text');
         testText.innerHTML = TypingTest.testText;
         this.timeInDOM = document.getElementById('time');
@@ -63,6 +67,7 @@ var TypingTest = {
                 newNode.innerHTML = enteredLetter;
                 if (enteredLetter === TypingTest.testText.charAt(TypingTest.currentLetter)) {
                     newNode.style["background-color"] = "green";
+                    TypingTest.correctLetters += 1;
                 } else {
                     newNode.style["background-color"] = "red";
                     TypingTest.wrongLetters += 1;
@@ -70,8 +75,8 @@ var TypingTest = {
                 console.log(newNode);
                 TypingTest.enteredTextInDOM.appendChild(newNode);
                 TypingTest.currentLetter += 1;
-                if(TypingTest.currentLetter == TypingTest.testText.length) {
-                    window.clearInterval(this.counter);
+                if(TypingTest.currentLetter === TypingTest.testText.length) {
+                    clearInterval(TypingTest.counter);
                     window.removeEventListener("keydown", TypingTest.readLetter, false);
                     window.removeEventListener("keypress", TypingTest.readLetter, false);
                     TypingTest.showModal();
@@ -87,7 +92,7 @@ var TypingTest = {
         }
     },
     typingSpeedCPM: function () {
-        return (TypingTest.currentLetter/((TypingTest.initialTime - TypingTest.timeLeft)/60)).toFixed(2);
+        return (TypingTest.correctLetters/((TypingTest.initialTime - TypingTest.timeLeft)/60)).toFixed(2);
     },
     typingAccuracy: function () {
         if (TypingTest.currentLetter > 0) {
@@ -115,7 +120,7 @@ var TypingTest = {
     },
     typingPace: function() {
         console.log("currentLetter: " + this.currentLetter);
-        if(this.currentLetter == this.checkPoints[this.currentCheckPoint]) {
+        if(this.currentLetter === this.checkPoints[this.currentCheckPoint]) {
             var temp = this.currentCheckPoint;
             var numOfLetters = this.checkPoints[temp] - this.checkPoints[temp-1];
             var time = this.initialTime - this.timeLeft;
@@ -133,36 +138,36 @@ var TypingTest = {
     },
     calculatePointsForSpeed: function (){
         var speedPoints;
-        if (Game.typingSpeedCPM() < 150) {
+        if (TypingTest.typingSpeedCPM() < 150) {
             speedPoints = 0;
-        } else if (Game.typingSpeedCPM() > 500){
+        } else if (TypingTest.typingSpeedCPM() > 500){
             speedPoints = 70;
         } else {
-            speedPoints = ((Game.typingSpeedCPM()/5) - 30).toFixed();
+            speedPoints = ((TypingTest.typingSpeedCPM()/5) - 30).toFixed();
         }
         return speedPoints;
     },
     calculatePointsForAccuracy: function () {
         var accuracyPoints;
-        if (Game.typingAccuracy() <= 90) {
+        if (TypingTest.typingAccuracy() <= 90) {
             accuracyPoints = 0;
         } else {
-            accuracyPoints = ((Game.typingAccuracy() - 90).toFixed(0)) * 3;
+            accuracyPoints = ((TypingTest.typingAccuracy() - 90).toFixed(0)) * 3;
         }
         return accuracyPoints;
     },
     showModal: function () {
         var modal = document.getElementById("nickname-modal");
         modal.style.display = "block";
-    },
+    }
 
 };
 TypingTest.init();
 
 function toggleVisibility(id){
     var element = document.getElementById(id);
-    element.style.display = element.style.display == "block" ? "none" : "block";
-};
+    element.style.display = element.style.display === "block" ? "none" : "block";
+}
 
 function sendRequest(){
     var nickname = document.getElementById("nickname-input").value;
@@ -173,10 +178,10 @@ function sendRequest(){
         {
             nickname : nickname,
             accuracy: "10",
-            speed: "10",
+            speed: "10"
         },
         function(data){
             $("html").html(data);
         });
 
-};
+}
