@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -14,10 +14,10 @@
 <nav class="navbar navbar-inverse navbar-inverse navbar-default navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Main page</a>
+            <a class="navbar-brand" th:href="@{'/'}">Main page</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a href="#">Best scores</a></li>
+            <li><a th:href="@{'/database'}">Best scores</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#">About project</a></li>
@@ -29,11 +29,39 @@
     <div class="jumbotron">
         <h1 class="text-center">Best scores</h1>
 
-        <ul class="list-group">
-            <li class="list-group-item">First item</li>
-            <li class="list-group-item">Second item</li>
-            <li class="list-group-item">Third item</li>
-        </ul>
+        <div th:if="textList">
+            <ul class="list-group" th:each="text : ${textList}">
+                <li class="list-group-item">
+                    <p th:text="${text.getKey().getText()}"></p>
+                    <table class="table table-hover" th:if="${text.getValue()}">
+                        <thead>
+                        <tr><th>User name</th><th>Score</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="score : ${text.getValue()}">
+                            <td th:text="${score.getKey().getName()}"></td>
+                            <td th:text="${score.getValue()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </div>
+
+        <div th:if="${scores}">
+            <p th:text="${myText.getText()}"></p>
+            <table class="table table-hover">
+                <thead>
+                <tr><th>User name</th><th>Score</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="score : ${scores}">
+                    <td th:text="${score.getKey().getName()}"></td>
+                    <td th:text="${score.getValue()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
     </div>
 

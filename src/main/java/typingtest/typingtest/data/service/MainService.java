@@ -40,6 +40,12 @@ public class MainService {
         return map;
     }
 
+    public Map<Text, Map<User,Double>> getScoresForAllTexts() {
+        Map<Text, Map<User,Double>>  map = new TreeMap<>(Comparator.comparing(Text::getId));
+        for (int i = 1; i <= 5; i++) map.put(getText(i), getScoresForText(i));
+        return map;
+    }
+
     public boolean addScoreForUser(String userName, int textId, Double score) {
         List<Double> tmp = textService.getBestScoresForText((long) textId);
 

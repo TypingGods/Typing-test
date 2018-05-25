@@ -7,7 +7,8 @@ var TypingTest = {
     correctLetters: 0,
     wrongLetters: 0,
     textLength: 0,
-    testText: "Life is like",// a box of chocolates. You never know what you're gonna get",
+    testText: "",
+    textId: 0,
     enteredTextInDOM: undefined,
     timeInDOM: undefined,
     speedInDOM: undefined,
@@ -47,7 +48,9 @@ var TypingTest = {
             window.location.reload(true);
         };
         var testText = document.getElementById('test-text');
-        testText.innerHTML = TypingTest.testText;
+        TypingTest.testText = testText.innerHTML;
+        var textId = document.getElementById('text-id');
+        TypingTest.textId = textId.innerHTML;
         this.timeInDOM = document.getElementById('time');
         this.speedInDOM = document.getElementById('speed');
         this.enteredTextInDOM = document.getElementById('entered-text');
@@ -176,9 +179,9 @@ function sendRequest(){
     var url = document.URL + "/database";
     $.post(url,
         {
-            nickname : nickname,
-            accuracy: "10",
-            speed: "10"
+            userName : nickname,
+            score: "10",
+            textId: TypingTest.textId
         },
         function(data){
             $("html").html(data);
