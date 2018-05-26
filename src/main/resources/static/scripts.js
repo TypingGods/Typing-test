@@ -159,6 +159,39 @@ var TypingTest = {
         }
         return accuracyPoints;
     },
+    calculatePointsForDeviation: function () {
+        var quotient = 5;
+        var deviation = TypingTest.calculateDeviationForSpeed();
+        if (deviation > 0 && deviation <= 8 * quotient) {
+            return 10;
+        } else if ( deviation > 8  * quotient && deviation <= 10  * quotient){
+            return 9;
+        } else if ( deviation > 10  * quotient && deviation <= 12  * quotient) {
+            return 8;
+        } else if ( deviation > 12  * quotient && deviation <= 14  * quotient) {
+            return 7;
+        } else if ( deviation > 14  * quotient && deviation <= 16  * quotient) {
+            return 6;
+        } else if ( deviation > 16  * quotient && deviation <= 18  * quotient) {
+            return 5;
+        } else if ( deviation > 18  * quotient && deviation <= 19  * quotient) {
+            return 4;
+        } else if ( deviation > 19  * quotient && deviation <= 20  * quotient) {
+            return 3;
+        } else if ( deviation > 20  * quotient && deviation <= 21  * quotient) {
+            return 2;
+        } else if ( deviation > 21  * quotient && deviation <= 22  * quotient) {
+            return 1;
+        } else  {
+            return 0;
+        }
+    },
+    calculateDeviationForSpeed: function () {
+        var speeds = Array.from(TypingTest.typingPaceMap.values());
+        var mean = speeds.reduce(function (acc, curr) { return acc + curr;})/speeds.length;
+        var deviations = speeds.map(function (value) { return (value - mean)*(value - mean);});
+        return deviations.reduce(function (acc, curr) { return acc + curr;})/deviations.length;
+    },
     showModal: function () {
         var modal = document.getElementById("nickname-modal");
         modal.style.display = "block";
