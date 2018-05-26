@@ -57,14 +57,29 @@ var TypingTest = {
         TypingTest.makeCheckPoints();
         TypingTest.typingPaceMap = new Map();
     },
+    finishTest: function () {
+        clearInterval(TypingTest.counter);
+        window.removeEventListener("keydown", TypingTest.readLetter, false);
+        window.removeEventListener("keypress", TypingTest.readLetter, false);
+        console.log("acc: " + TypingTest.calculatePointsForAccuracy() + " speed: " + TypingTest.calculatePointsForSpeed() + " dev: " + TypingTest.calculatePointsForDeviation());
+        var deviation = TypingTest.calculatePointsForDeviation();
+        var speed = TypingTest.calculatePointsForSpeed();
+        var accuracy = TypingTest.calculatePointsForAccuracy();
+        var points = 0.0;
+        points += parseInt(deviation);
+        points += parseInt(speed);
+        points += parseInt(accuracy);
+        console.log(TypingTest.getFinalGrade(points));
+        TypingTest.showModal();
+    },
     readLetter: function (e) {
         if (TypingTest.testStarted) {
             var enteredLetter = e.key;
             //console.log(enteredLetter);
             //console.log(e.keyCode);
             if (e.type === "keypress" && e.keyCode > 31 && e.keyCode < 127) {
-                console.log('keypress');
-                console.log(e.keyCode);
+                //console.log('keypress');
+                //console.log(e.keyCode);
                 var newNode = document.createElement("span");
                 newNode.style["white-space"] = "pre-wrap";
                 newNode.innerHTML = enteredLetter;
@@ -75,19 +90,19 @@ var TypingTest = {
                     newNode.style["background-color"] = "red";
                     TypingTest.wrongLetters += 1;
                 }
-                console.log(newNode);
+                //console.log(newNode);
                 TypingTest.enteredTextInDOM.appendChild(newNode);
                 TypingTest.currentLetter += 1;
-                if(TypingTest.currentLetter === TypingTest.testText.length) {
-                    clearInterval(TypingTest.counter);
-                    window.removeEventListener("keydown", TypingTest.readLetter, false);
-                    window.removeEventListener("keypress", TypingTest.readLetter, false);
-                    TypingTest.showModal();
+                if(TypingTest.correctLetters === TypingTest.testText.length) {
+                    TypingTest.finishTest();
                 }
             } else if (e.type === 'keydown' && enteredLetter === "Backspace") {
-                console.log('keydown');
+                //console.log('keydown');
                 if (TypingTest.enteredTextInDOM.childElementCount > 0) {
                     TypingTest.currentLetter -= 1;
+                    if (TypingTest.enteredTextInDOM.lastChild.style['background-color'] === 'green') {
+                        TypingTest.correctLetters -=1;
+                    }
                     TypingTest.enteredTextInDOM.removeChild(TypingTest.enteredTextInDOM.lastChild);
                 }
             }
@@ -119,17 +134,17 @@ var TypingTest = {
         checkPoints.push((numOfCheckPoints) * checkPointLength - 1 + divisionRest);
 
         this.checkPoints = checkPoints;
-        console.log(this.checkPoints);
+        //console.log(this.checkPoints);
     },
     typingPace: function() {
-        console.log("currentLetter: " + this.currentLetter);
+        //console.log("currentLetter: " + this.currentLetter);
         if(this.currentLetter === this.checkPoints[this.currentCheckPoint]) {
             var temp = this.currentCheckPoint;
             var numOfLetters = this.checkPoints[temp] - this.checkPoints[temp-1];
             var time = this.initialTime - this.timeLeft;
             var currentSpeed = this.currentTypingSpeed(numOfLetters, this.lastCheckPoint, time);
 
-            console.log("pace: " + currentSpeed);
+            //console.log("pace: " + currentSpeed);
 
             this.typingPaceMap.set(this.checkPoints[temp], currentSpeed);
             this.lastCheckPoint = time;
@@ -187,10 +202,44 @@ var TypingTest = {
         }
     },
     calculateDeviationForSpeed: function () {
-        var speeds = Array.from(TypingTest.typingPaceMap.values());
-        var mean = speeds.reduce(function (acc, curr) { return acc + curr;})/speeds.length;
+        var speeds = Array.from(TypingTest.typingPaceMap.values()).map(function (elem) { return parseInt(elem)});
+        var mean = speeds.reduce(function (acc, curr) { return curr + acc;}, 0)/speeds.length;
         var deviations = speeds.map(function (value) { return (value - mean)*(value - mean);});
-        return deviations.reduce(function (acc, curr) { return acc + curr;})/deviations.length;
+        return Math.sqrt(deviations.reduce(function (acc, curr) { return acc + curr;})/deviations.length);
+    },
+    getFinalGrade: function (points) {
+        points = parseInt(points);
+        if (points >= 100){
+            return "S";
+        } else if (points >= 95){
+            return "A+";
+        } else if (points >= 90){
+            return "A";
+        } else if (points >= 85){
+            return "A-";
+        } else if (points >= 80){
+            return "B+";
+        } else if (points >= 75){
+            return "B";
+        } else if (points >= 70){
+            return "B-";
+        } else if (points >= 65){
+            return "C+";
+        } else if (points >= 60){
+            return "C";
+        } else if (points >= 55){
+            return "C-";
+        } else if (points >= 50){
+            return "D+";
+        } else if (points >= 45){
+            return "D";
+        } else if (points >= 40){
+            return "D-";
+        } else if (points >= 35) {
+            return "F";
+        } else {
+            return "err";
+        }
     },
     showModal: function () {
         var modal = document.getElementById("nickname-modal");
