@@ -69,7 +69,9 @@ var TypingTest = {
         points += parseInt(deviation);
         points += parseInt(speed);
         points += parseInt(accuracy);
-        console.log(TypingTest.getFinalGrade(points));
+        var grade = TypingTest.getFinalGrade(points);
+        console.log(grade);
+        TypingTest.displayResults(grade);
         TypingTest.showModal();
     },
     readLetter: function (e) {
@@ -114,7 +116,7 @@ var TypingTest = {
     },
     typingAccuracy: function () {
         if (TypingTest.currentLetter > 0) {
-            return (TypingTest.currentLetter - TypingTest.wrongLetters)*100/(TypingTest.currentLetter);
+            return ((TypingTest.currentLetter - TypingTest.wrongLetters)*100/(TypingTest.currentLetter)).toFixed(2);
         } else {
             return 100;
         }
@@ -244,6 +246,14 @@ var TypingTest = {
     showModal: function () {
         var modal = document.getElementById("nickname-modal");
         modal.style.display = "block";
+    },
+    displayResults: function (grade) {
+        document.getElementById("scores").style.display = "block";
+        document.getElementById("score-speed").innerHTML = TypingTest.typingSpeedCPM() + " CPM";
+        document.getElementById("score-accuracy").innerHTML = TypingTest.typingAccuracy() + "%";
+        document.getElementById("score-mistakes").innerHTML = TypingTest.wrongLetters.toString();
+        document.getElementById("score-tempo").innerHTML = "tbd";
+        document.getElementById("score-grade").innerHTML = grade;
     }
 
 };
