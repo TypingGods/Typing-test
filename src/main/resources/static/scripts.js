@@ -17,17 +17,17 @@ var TypingTest = {
     typingPaceMap: undefined,
     currentCheckPoint: 1,
     lastCheckPoint: 0,//time when last checkPoint speed measuring started
-    endingAnalyzeSentences: {
-        sentencesAboutSpeed : ["Your typing speed is pretty bad, however don't worry about it too much. As long as you focus on accuracy and stable tempo, you are gonna make a great progres. ",
+    finalFeedbackSentences: {
+        speed : ["Your typing speed is pretty bad, however don't worry about it too much. As long as you focus on accuracy and stable tempo, you are gonna make a great progres. ",
             "Your typing speed is average, but is it enough for you? Of course not! Remember that the most important thing is to stay focused on accuracy and proper tempo of typnig. ",
             "Your typing speed is really awesome. I guess,  you use all fingers while typing. Is there any limit? Of course not! The best typists in the world reach scores around 200 wpm. "],
-        sentencesAboutAccuracy : ["You don't type very accurately, you make a lot of mistakes. Usually it means that you type too fast. Try to slow down and remember, that the first thing to train is accuracy, not speed.  ",
+        accuracy : ["You don't type very accurately, you make a lot of mistakes. Usually it means that you type too fast. Try to slow down and remember, that the first thing to train is accuracy, not speed.  ",
             "You type quite accurately, but there is always something to correct. Remember that if you slow down you will drasticly imporove you accuracy, and it is the crucial thing in your learing process. ",
             "Accuracy is another very important trait of typing. And you know it. You avoided mistakes and it's very cool. Keep it up. "],
-        sentencesAboutDeviation : ["And finally something about typing tempo. Your is very chaotic. In learning process its compulsory to keep stable typing speed. By doing so, after some time, you will notice a great improvement of your speed and accuracy.",
+        deviation : ["And finally something about typing tempo. Your is very chaotic. In learning process its compulsory to keep stable typing speed. By doing so, after some time, you will notice a great improvement of your speed and accuracy.",
             "And finally some words about typing tempo. Your is medicore. It means you can do better. Try to maintain the same speed during test. By doing so, after some time, you will notice a great improvement of your speed and accuracy.",
             "And finally some words about typing tempo. Your is stable. Seems like you are aware of its importance."],
-        checkoutGraphsSentence : "To analyze your techinque more deeply, checkout two graphs below."
+        graphs : "To analyze your techinque more deeply, checkout two graphs below."
     },
     init: function () {
         var startButton = document.getElementById('start-button');
@@ -83,6 +83,7 @@ var TypingTest = {
         var grade = TypingTest.getFinalGrade(points);
         console.log(grade);
         TypingTest.displayResults(grade, deviation);
+        TypingTest.showFeedback(speed, accuracy, deviation);
         TypingTest.showModal();
     },
     readLetter: function (e) {
@@ -267,6 +268,34 @@ var TypingTest = {
         } else {
             return "err";
         }
+    },
+    showFeedback: function (speed, accuracy, deviation) {
+        var sentence = "";
+        if (speed >= 0 && speed <= 20) {
+            sentence += TypingTest.finalFeedbackSentences.speed[0];
+        } else if (speed > 20 && speed <= 50) {
+            sentence += TypingTest.finalFeedbackSentences.speed[1];
+        } else {
+            sentence += TypingTest.finalFeedbackSentences.speed[2];
+        }
+        if (accuracy >= 0 && accuracy <= 10) {
+            sentence += TypingTest.finalFeedbackSentences.accuracy[0];
+        } else if (accuracy > 10 && accuracy <= 20) {
+            sentence += TypingTest.finalFeedbackSentences.accuracy[1];
+        } else {
+            sentence += TypingTest.finalFeedbackSentences.accuracy[2];
+        }
+        if (deviation >= 0 && deviation <= 4) {
+            sentence += TypingTest.finalFeedbackSentences.deviation[0];
+        } else if (deviation > 4 && deviation <= 6) {
+            sentence += TypingTest.finalFeedbackSentences.deviation[1];
+        } else {
+            sentence += TypingTest.finalFeedbackSentences.deviation[2];
+        }
+        sentence += TypingTest.finalFeedbackSentences.graphs;
+        var feedback = document.getElementById("feedback");
+        feedback.innerHTML = sentence;
+        feedback.style.display = "block";
     },
     showModal: function () {
         var modal = document.getElementById("nickname-modal");

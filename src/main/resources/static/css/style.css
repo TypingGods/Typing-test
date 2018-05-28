@@ -54,6 +54,6 @@ body {
 button[disabled], .btn.disabled, .btn[disabled] {
     cursor: pointer;
 }
-#scores {
+#scores, #feedback {
     display: none;
 }
