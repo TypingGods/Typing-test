@@ -15,6 +15,7 @@ var TypingTest = {
     counter: undefined,
     checkPoints: undefined,
     typingPaceMap: undefined,
+    averageSpeed: [],
     currentCheckPoint: 1,
     lastCheckPoint: 0,//time when last checkPoint speed measuring started
     finalFeedbackSentences: {
@@ -165,6 +166,7 @@ var TypingTest = {
             this.typingPaceMap.set(this.checkPoints[temp], currentSpeed);
             this.lastCheckPoint = time;
             this.currentCheckPoint++;
+            this.averageSpeed.push(TypingTest.typingSpeedCPM());
         }
     },
     currentTypingSpeed: function(numOfLetters, startTime, endTime){
@@ -305,7 +307,7 @@ var TypingTest = {
     },
     displayResults: function (grade, deviationPoints) {
         document.getElementById("scores").style.display = "block";
-        document.getElementById("score-speed").innerHTML = TypingTest.typingSpeedCPM() + " CPM";
+        document.getElementById("score-speed").innerHTML = document.getElementById('speed').innerHTML + " CPM";
         document.getElementById("score-accuracy").innerHTML = TypingTest.typingAccuracy() + "%";
         document.getElementById("score-mistakes").innerHTML = TypingTest.wrongLetters.toString();
         document.getElementById("score-tempo").innerHTML = TypingTest.getTempoDescription(deviationPoints);
@@ -365,11 +367,11 @@ var TypingTest = {
                 markerColor: "red",
                 lineThickness: 2,
                 dataPoints: [
-                    {label: "check 1", y: parseInt(speeds[0])},
-                    {label: "check 2", y: parseInt(speeds[1])},
-                    {label: "check 3", y: parseInt(speeds[2])},
-                    {label: "check 4", y: parseInt(speeds[3])},
-                    {label: "check 5", y: parseInt(speeds[4])}
+                    {label: "check 1", y: parseInt(TypingTest.averageSpeed[0])},
+                    {label: "check 2", y: parseInt(TypingTest.averageSpeed[1])},
+                    {label: "check 3", y: parseInt(TypingTest.averageSpeed[2])},
+                    {label: "check 4", y: parseInt(TypingTest.averageSpeed[3])},
+                    {label: "check 5", y: parseInt(TypingTest.averageSpeed[4])}
                 ]
             }]
         });
