@@ -57,3 +57,8 @@ button[disabled], .btn.disabled, .btn[disabled] {
 #scores, #feedback {
     display: none;
 }
+#linear-chart, #bar-chart {
+
+    margin: 20px;
+}
+

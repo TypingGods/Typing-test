@@ -15,6 +15,7 @@ var TypingTest = {
     counter: undefined,
     checkPoints: undefined,
     typingPaceMap: undefined,
+    averageSpeed: [],
     currentCheckPoint: 1,
     lastCheckPoint: 0,//time when last checkPoint speed measuring started
     finalFeedbackSentences: {
@@ -70,6 +71,7 @@ var TypingTest = {
     },
     finishTest: function () {
         clearInterval(TypingTest.counter);
+        console.log(TypingTest.typingPaceMap);
         window.removeEventListener("keydown", TypingTest.readLetter, false);
         window.removeEventListener("keypress", TypingTest.readLetter, false);
         console.log("acc: " + TypingTest.calculatePointsForAccuracy() + " speed: " + TypingTest.calculatePointsForSpeed() + " dev: " + TypingTest.calculatePointsForDeviation());
@@ -84,6 +86,7 @@ var TypingTest = {
         console.log(grade);
         TypingTest.displayResults(grade, deviation);
         TypingTest.showFeedback(speed, accuracy, deviation);
+        TypingTest.calculateChart();
         TypingTest.showModal();
     },
     readLetter: function (e) {
@@ -163,6 +166,7 @@ var TypingTest = {
             this.typingPaceMap.set(this.checkPoints[temp], currentSpeed);
             this.lastCheckPoint = time;
             this.currentCheckPoint++;
+            this.averageSpeed.push(TypingTest.typingSpeedCPM());
         }
     },
     currentTypingSpeed: function(numOfLetters, startTime, endTime){
@@ -303,13 +307,79 @@ var TypingTest = {
     },
     displayResults: function (grade, deviationPoints) {
         document.getElementById("scores").style.display = "block";
-        document.getElementById("score-speed").innerHTML = TypingTest.typingSpeedCPM() + " CPM";
+        document.getElementById("score-speed").innerHTML = document.getElementById('speed').innerHTML + " CPM";
         document.getElementById("score-accuracy").innerHTML = TypingTest.typingAccuracy() + "%";
         document.getElementById("score-mistakes").innerHTML = TypingTest.wrongLetters.toString();
         document.getElementById("score-tempo").innerHTML = TypingTest.getTempoDescription(deviationPoints);
         document.getElementById("score-grade").innerHTML = grade;
-    }
+    },
+    calculateChart: function () {
+        var speeds = Array.from(TypingTest.typingPaceMap.values());
+        console.log(speeds);
 
+        var barChart = new CanvasJS.Chart("bar-chart", {
+            animationEnabled: true,
+            animationDuration: 2000,
+            title:{
+                text: "Speed throughout the test"
+            },
+            axisY: {
+                includeZero: false,
+                stripLines: [{
+                    lineColor: "crimson",
+                    lineThickness: 2,
+                    color: "red",
+                    labelFontColor: "red",
+                    value: TypingTest.typingSpeedCPM(),
+                    label: "Average"
+                }]
+            },
+            data: [
+                {
+                    fillOpacity: .5,
+                    type: "column",
+                    dataPoints: [
+                        { label: "part 1",  y: parseInt(speeds[0])},
+                        { label: "part 2", y: parseInt(speeds[1])},
+                        { label: "part 3", y: parseInt(speeds[2])},
+                        { label: "part 4",  y: parseInt(speeds[3])},
+                        { label: "part 5",  y: parseInt(speeds[4])}
+                    ]
+                }
+            ]
+
+        });
+        document.getElementById('bar-chart').style.height = "370px";
+        barChart.render();
+
+        var linearChart = new CanvasJS.Chart("linear-chart", {
+            animationEnabled: true,
+            animationDuration: 2000,
+            title:{
+                text: "Average speed throughout test"
+            },
+            axisY: {
+                includeZero: false
+            },
+            data: [{
+                type: "spline",
+                lineColor: "#82a6fe",
+                markerColor: "red",
+                lineThickness: 2,
+                dataPoints: [
+                    {label: "check 1", y: parseInt(TypingTest.averageSpeed[0])},
+                    {label: "check 2", y: parseInt(TypingTest.averageSpeed[1])},
+                    {label: "check 3", y: parseInt(TypingTest.averageSpeed[2])},
+                    {label: "check 4", y: parseInt(TypingTest.averageSpeed[3])},
+                    {label: "check 5", y: parseInt(TypingTest.averageSpeed[4])}
+                ]
+            }]
+        });
+        document.getElementById('linear-chart').style.height = "370px";
+        linearChart.render();
+
+
+    }
 };
 TypingTest.init();
 
