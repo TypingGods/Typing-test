@@ -26,9 +26,12 @@
 </nav>
 <div class="container-fluid test-containers" id="test-space">
     <div id="test-wrapper">
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary btn-lg" id="start-button">Start</button>
-            <button type="button" class="btn btn-primary btn-lg" id="reset-button">Reset</button>
+        <div class="row">
+            <div class="btn-group col-md-3">
+                <button type="button" class="btn btn-primary btn-lg" id="start-button">Start</button>
+                <button type="button" class="btn btn-primary btn-lg" id="reset-button">Reset</button>
+            </div>
+            <div class="col-md-1 col-md-offset-8" id="browserInfo"><img src="icons/chrome.png" height="18" width="18" alt="chrome"> <img src="icons/opera.png" alt="opera" height="20" width="20"></div>
         </div>
         <h2 class="text-center title-header">TYPING TEST</h2>
         <div class="row" id="typingPanel">
@@ -46,24 +49,23 @@
             <div class="col-md-2 text-center units" id="unitTime">SEC</div>
         </div>
     </div>
-    <div class="col-md-10 col-md-offset-1" id="text-wrapper">
-        <div>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1" id="text-wrapper">
             <p id="text-id" hidden th:text="${text.getId()}"></p>
-            <p id="test-text" class="texts" th:text="${text.getText()}">
-            </p>
+            <p id="test-text" class="texts" th:text="${text.getText()}"></p>
         </div>
     </div>
 </div>
 
 
 <div class="container-fluid test-containers" id="user-space">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1" id="user-input-space">
-            <p id="entered-text" class="texts">
-                
-            </p>
-        </div>
-    </div>
+        <div class="row" id="user-input-bordering">
+            <div class="col-md-10 col-md-offset-1" id="user-input-wrapper">
+                <p id="entered-text" class="texts">
+                    Text area...
+                </p>
+            </div>
+        </div>   
     <div class="col-md-10 col-md-offset-1" id="scores">
         <h2 class="text-center title-header stats-header" >STATISTICS</h2>
         <div class="col-md-8 col-md-offset-2">
@@ -80,6 +82,10 @@
                         <td class="stat-td" id="score-speed"></td>
                     </tr>
                     <tr>
+                        <th>Std deviation: </th>
+                        <td class="stat-td" id="score-deviation"></td>
+                    </tr>                     
+                    <tr>
                         <th>Accuracy: </th>
                         <td class="stat-td" id="score-accuracy"></td>
                     </tr>
@@ -90,7 +96,7 @@
                     <tr>
                         <th>Tempo: </th>
                         <td class="stat-td" id="score-tempo"></td>
-                    </tr>
+                    </tr>                   
                     <tr id="final-grade">
                         <th>Grade: </th>
                         <td class="stat-td" id="score-grade"></td>

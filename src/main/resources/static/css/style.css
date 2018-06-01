@@ -2,21 +2,13 @@ body {
     padding-top:30px;
 }
 
+button[disabled], .btn.disabled, .btn[disabled] {
+    cursor: pointer;
+}
+
 .test-containers {
     font-family: Georgia, Times, "Times New Roman", serif;
     width: 100%;
-}
-
-#test-space {
-    padding: 50px;
-    margin-bottom: 50px;
-    background: #00d2ff; 
-    background: -webkit-linear-gradient(to right, #928DAB, #00d2ff);
-    background: linear-gradient(to right, #928DAB, #00d2ff); 
-}
-
-#scores {
-   font-size: 25px; 
 }
 
 .stats-header {
@@ -29,16 +21,8 @@ body {
     font-size: 45px;
 }
 
-#typingPanel {
-    padding: 30px;
-    font-size: 38px;
-    border-bottom: solid white 3px;
-    margin-bottom: 50px;
-}
-
 .texts {
     font-size: 30px;
-    margin-left: 20px;
     letter-spacing: 2px;
 }
 
@@ -46,15 +30,52 @@ body {
     font-size: 15px;
 } 
 
-#user-space {
-    width: 100%;
+.stat-td {
+    padding: 20px !important;
+}
+
+.table-custom {
+    margin-bottom: 40px;
+}
+
+.texts-best {
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+#test-space {
+    padding-top: 50px;
+    background: #00d2ff; 
+    background: -webkit-linear-gradient(to right, #928DAB, #00d2ff);
+    background: linear-gradient(to right, #928DAB, #00d2ff); 
+}
+
+#scores {
+   font-size: 25px; 
+}
+
+#typingPanel {
+    padding: 30px;
+    font-size: 38px;
+    border-bottom: solid white 3px;
+    margin-bottom: 50px;
 }
 
 #stats-table th {
     padding: 20px;
 }
-.stat-td {
-    padding: 20px !important;
+
+#text-wrapper {
+    padding-bottom: 30px;
+}
+
+#user-input-wrapper {
+    min-height: 75px;
+    padding-top: 15px;
+}
+
+#user-input-bordering {
+   border-bottom: solid grey 3px; 
 }
 
 #stats-table thead {
@@ -69,23 +90,6 @@ body {
     color: crimson;
 }
 
-button[disabled], .btn.disabled, .btn[disabled] {
-    cursor: pointer;
-}
 #scores, #feedback {
     display: none;
 }
-
-.graph {
-    margin-bottom: 100px;
-}
-
-.table-custom {
-    margin-bottom: 40px;
-}
-
-.texts-best {
-    font-size: 20px;
-    letter-spacing: 1px;
-}
-
