@@ -7,11 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-inverse navbar-default navbar-static-top">
+<nav class="navbar navbar-inverse navbar-default navbar-static-top navbar-fixed-top" >
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" th:href="@{'/'}">Main page</a>
@@ -26,14 +25,13 @@
 </nav>
 
 <div class="container">
-    <div class="jumbotron">
-        <h1 class="text-center">Best scores</h1>
+        <h1 class="text-center stats-header">Best scores</h1>
 
         <div th:if="${textList}">
             <ul class="list-group" th:each="text : ${textList}">
                 <li class="list-group-item">
-                    <p th:text="${text.getKey().getText()}"></p>
-                    <table class="table table-hover" th:if="${text.getValue()}">
+                    <p class="texts-best" th:text="${text.getKey().getText()}"></p>
+                    <table class="table table-hover table-custom" id="users-table" th:if="${text.getValue()}">
                         <thead>
                         <tr><th>User name</th><th>Score</th></tr>
                         </thead>
@@ -50,7 +48,7 @@
 
         <div th:if="${scores}">
             <p th:text="${myText.getText()}"></p>
-            <table class="table table-hover">
+            <table class="table table-hover table-custom">
                 <thead>
                 <tr><th>User name</th><th>Score</th></tr>
                 </thead>
@@ -64,7 +62,7 @@
         </div>
 
     </div>
-
-</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
