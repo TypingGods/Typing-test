@@ -9,7 +9,7 @@ import java.util.List;
 public interface TextRepository extends CrudRepository<Text, Long> {
 
     @Query(value = "SELECT score FROM person_text pt JOIN text t ON pt.text_id=t.id WHERE t.id=?1" +
-            " ORDER BY score DESC LIMIT 10", nativeQuery = true)
+            " ORDER BY score DESC LIMIT 30", nativeQuery = true)
     List<Double> getBestScoresForText(Long textId);
 
     @Query("SELECT u, ut.score FROM User u JOIN UserText ut ON u.id=ut.person.id WHERE" +

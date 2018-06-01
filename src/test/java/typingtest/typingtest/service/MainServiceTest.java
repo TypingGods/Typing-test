@@ -44,7 +44,7 @@ public class MainServiceTest {
         // given
         List<Double> scoresList = new ArrayList<>();
         Random random = new Random();
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < 30; ++i)
             scoresList.add(random.nextDouble() * 100);
 
         Text text = new Text("text", "author");
@@ -62,7 +62,7 @@ public class MainServiceTest {
             // when
             boolean added = mainService.addScoreForUser("user", Math.toIntExact(text.getId()), rand);
             // then
-            if (rand > scoresList.get(9))
+            if (rand > scoresList.get(29))
                 assertThat(added).isTrue();
             else
                 assertThat(added).isFalse();

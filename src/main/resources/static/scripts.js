@@ -402,7 +402,7 @@ function sendRequest(){
     $.post(url,
         {
             userName : nickname,
-            score: "10",
+            score: TypingTest.typingSpeedCPM().toString(),
             textId: TypingTest.textId
         },
         function(data){

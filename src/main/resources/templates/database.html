@@ -26,39 +26,33 @@
 
 <div class="container">
         <h1 class="text-center stats-header">Best scores</h1>
-
-        <div th:if="${textList}">
-            <ul class="list-group" th:each="text : ${textList}">
-                <li class="list-group-item">
-                    <p class="texts-best" th:text="${text.getKey().getText()}"></p>
-                    <table class="table table-hover table-custom" id="users-table" th:if="${text.getValue()}">
-                        <thead>
-                        <tr><th>User name</th><th>Score</th></tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="score : ${text.getValue()}">
-                            <td th:text="${score.getKey().getName()}"></td>
-                            <td th:text="${score.getValue()}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </li>
-            </ul>
+        <div class="alert alert-success" role="alert" th:if="${added} == true">
+            <strong>Well done!</strong> Your score is good enough to be added to database!
+        </div>
+        <div class="alert alert-danger" role="alert" th:if="${added} == false">
+            <strong>Oh snap!</strong> Your score is too low to be added to database. Try again!
         </div>
 
-        <div th:if="${scores}">
-            <p th:text="${myText.getText()}"></p>
-            <table class="table table-hover table-custom">
-                <thead>
-                <tr><th>User name</th><th>Score</th></tr>
-                </thead>
-                <tbody>
-                <tr th:each="score : ${scores}">
-                    <td th:text="${score.getKey().getName()}"></td>
-                    <td th:text="${score.getValue()}"></td>
-                </tr>
-                </tbody>
-            </table>
+        <div th:if="${textList}">
+            <div th:each="text : ${textList}">
+                    <div class="col-md-7">
+                        <p class="texts-best" th:text="${text.getKey().getText()}"></p>
+                        <p class="blog-post-meta" th:text="${text.getKey().getAuthor()}"></p>
+                    </div>
+                    <div class="col-md-5">
+                        <table class="table table-hover table-custom" id="users-table" th:if="${text.getValue()}">
+                            <thead>
+                            <tr><th>User name</th><th>Score (CPM)</th></tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="score : ${text.getValue()}">
+                                <td th:text="${score.getKey().getName()}"></td>
+                                <td th:text="${score.getValue()}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
         </div>
 
     </div>
