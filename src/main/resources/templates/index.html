@@ -7,9 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-default navbar-static-top navbar-fixed-top" >
@@ -25,47 +24,95 @@
         </ul>
     </div>
 </nav>
-<div class="container">
-    <div>
-        <button type="button" class="btn btn-primary btn-lg" id="start-button">Start</button>
-        <button type="button" class="btn btn-primary btn-lg" id="reset-button">Reset</button>
-    </div>
-    <h2 class="text-center titleHeader">TYPING SPEED TEST</h2>
-    <div class="row" id="typingPanel">
-        <div class="col-xs-6 text-right">
-            <span id="speed">0.00</span>
-            <div class="units" id="unitSpeed">CHARS / MIN</div>
+<div class="container-fluid test-containers" id="test-space">
+    <div id="test-wrapper">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary btn-lg" id="start-button">Start</button>
+            <button type="button" class="btn btn-primary btn-lg" id="reset-button">Reset</button>
         </div>
-        <div class="col-xs-6 text-left">
-            <span id="time">120</span>
-            <div class="units" id="unitTime">SEC</div>
+        <h2 class="text-center title-header">TYPING TEST</h2>
+        <div class="row" id="typingPanel">
+            <div class="col-md-2 col-md-offset-3 text-center">
+                <span id="speed">0.00</span>
+            </div>
+            <div class="col-md-2 text-center">
+                <span id="speedWPM">0.00</span>
+            </div>
+            <div class="col-md-2 text-center">
+                <span id="time">120</span>
+            </div>
+            <div class="col-md-2 col-md-offset-3 text-center units" id="unitSpeed">CHARS / MIN</div>
+            <div class="col-md-2 text-center units" id="unitSpeedWPM">WORDS / MIN</div>
+            <div class="col-md-2 text-center units" id="unitTime">SEC</div>
         </div>
     </div>
-    <div id="textWrapper">
+    <div class="col-md-10 col-md-offset-1" id="text-wrapper">
         <div>
             <p id="text-id" hidden th:text="${text.getId()}"></p>
             <p id="test-text" class="texts" th:text="${text.getText()}">
             </p>
         </div>
-        <div>
-            <p id="entered-text" class="texts">
+    </div>
+</div>
 
+
+<div class="container-fluid test-containers" id="user-space">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1" id="user-input-space">
+            <p id="entered-text" class="texts">
+                
             </p>
         </div>
     </div>
-    <div id="scores">
-        <div><span>Speed: </span><span id="score-speed"></span></div>
-        <div><span>Accuracy: </span><span id="score-accuracy"></span></div>
-        <div><span>Mistakes: </span><span id="score-mistakes"></span></div>
-        <div><span>Tempo: </span><span id="score-tempo"></span></div>
-        <div id="score-grade"></div>
-    </div>
-    <div id="feedback">
-
-    </div>
-    <div id="bar-chart">
-    </div>
-    <div id="linear-chart" >
+    <div class="col-md-10 col-md-offset-1" id="scores">
+        <h2 class="text-center title-header stats-header" >STATISTICS</h2>
+        <div class="col-md-8 col-md-offset-2">
+            <table class="table table-hover" id="stats-table">
+                <thead>
+                <tr>
+                    <th class="col-md-1">Statistc</th>
+                    <th class="col-md-3">Value</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Speed: </th>
+                        <td class="stat-td" id="score-speed"></td>
+                    </tr>
+                    <tr>
+                        <th>Accuracy: </th>
+                        <td class="stat-td" id="score-accuracy"></td>
+                    </tr>
+                    <tr>
+                        <th>Mistakes: </th>
+                        <td class="stat-td" id="score-mistakes"></td>
+                    </tr>
+                    <tr>
+                        <th>Tempo: </th>
+                        <td class="stat-td" id="score-tempo"></td>
+                    </tr>
+                    <tr id="final-grade">
+                        <th>Grade: </th>
+                        <td class="stat-td" id="score-grade"></td>
+                    </tr>                
+                </tbody>
+            </table>
+        </div>
+        <div class="row" id="feedback-wrapper">
+            <div class="col-md-10 col-md-offset-1">
+                <h2 class="text-center title-header stats-header" >ABOUT YOUR TYPING</h2>
+                <p class="texts" id="feedback"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h2 class="text-center title-header stats-header" >GRAPH ANALYSIS</h2>
+                <div class="graph" id="bar-chart">
+                </div>
+                <div class="graph" id="linear-chart" >
+                </div>
+            </div>
+        </div>
     </div>
     <div id="nickname-modal" class="modal fade in" role="dialog">
         <div class="modal-dialog">
@@ -85,8 +132,10 @@
             </div>
         </div>
     </div>
-
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script src="scripts.js" class="texts"></script>
 </body>
