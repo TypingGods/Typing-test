@@ -48,6 +48,7 @@ var TypingTest = {
                     TypingTest.timeLeft -= 1;
                     TypingTest.timeInDOM.innerHTML = TypingTest.timeLeft;
                     TypingTest.speedInDOM.innerHTML = TypingTest.typingSpeedCPM();
+                    TypingTest.speedInDOMwpm.innerHTML = TypingTest.typingSpeedWPM();
                 } else {
                     TypingTest.testStarted = false;
                 }
@@ -65,6 +66,7 @@ var TypingTest = {
         TypingTest.textId = textId.innerHTML;
         this.timeInDOM = document.getElementById('time');
         this.speedInDOM = document.getElementById('speed');
+        this.speedInDOMwpm = document.getElementById('speedWPM');
         this.enteredTextInDOM = document.getElementById('entered-text');
         TypingTest.makeCheckPoints();
         TypingTest.typingPaceMap = new Map();
@@ -114,7 +116,6 @@ var TypingTest = {
                     TypingTest.finishTest();
                 }
             } else if (e.type === 'keydown' && enteredLetter === "Backspace") {
-                //console.log('keydown');
                 if (TypingTest.enteredTextInDOM.childElementCount > 0) {
                     TypingTest.currentLetter -= 1;
                     if (TypingTest.enteredTextInDOM.lastChild.style['background-color'] === 'green') {
@@ -128,6 +129,10 @@ var TypingTest = {
     },
     typingSpeedCPM: function () {
         return (TypingTest.correctLetters/((TypingTest.initialTime - TypingTest.timeLeft)/60)).toFixed(2);
+    },
+    typingSpeedWPM: function() {
+        const avarageLettersInWord = 5;
+        return (TypingTest.correctLetters/((TypingTest.initialTime - TypingTest.timeLeft)/60) / avarageLettersInWord).toFixed(2);
     },
     typingAccuracy: function () {
         if (TypingTest.currentLetter > 0) {
