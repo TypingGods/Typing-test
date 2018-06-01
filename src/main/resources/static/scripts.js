@@ -315,6 +315,7 @@ var TypingTest = {
         document.getElementById("score-speed").innerHTML = document.getElementById('speed').innerHTML + " CPM";
         document.getElementById("score-accuracy").innerHTML = TypingTest.typingAccuracy() + "%";
         document.getElementById("score-mistakes").innerHTML = TypingTest.wrongLetters.toString();
+        document.getElementById("score-deviation").innerHTML = TypingTest.calculateDeviationForSpeed().toFixed(2).toString() + " CPM";
         document.getElementById("score-tempo").innerHTML = TypingTest.getTempoDescription(deviationPoints);
         document.getElementById("score-grade").innerHTML = grade;
     },
