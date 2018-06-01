@@ -32,17 +32,13 @@ public class MainService {
     }
 
     public Map<User,Double> getScoresForText(int textId) {
-        Map<Long, Double> result = textService.getScoresForText((long) textId);
-        Map<User, Double>  map = new TreeMap<>(Comparator.comparing(User::getId));
-        if(result != null && !result.isEmpty()){
-            result.forEach((aLong, aDouble) -> map.put(userService.getUser(aLong), aDouble));
-        }
-        return map;
+        return textService.getScoresForText((long) textId);
     }
 
     public Map<Text, Map<User,Double>> getScoresForAllTexts() {
         Map<Text, Map<User,Double>>  map = new TreeMap<>(Comparator.comparing(Text::getId));
-        for (int i = 1; i <= 5; i++) map.put(getText(i), getScoresForText(i));
+        for(Text text: textService.getAllTexts())
+            map.put(text, getScoresForText(Math.toIntExact(text.getId())));
         return map;
     }
 

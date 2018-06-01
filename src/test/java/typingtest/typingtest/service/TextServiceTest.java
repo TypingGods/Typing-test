@@ -9,10 +9,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 import typingtest.typingtest.data.model.Text;
+import typingtest.typingtest.data.model.User;
 import typingtest.typingtest.data.repository.TextRepository;
 import typingtest.typingtest.data.service.TextService;
 
-import java.math.BigInteger;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,13 +72,21 @@ public class TextServiceTest {
         Object[] object2 = new Object[2];
         Object[] object3 = new Object[2];
 
-        object1[0] = new BigInteger("1");
+        User user1 =  new User("user1");
+        User user2 =  new User("user2");
+        User user3 =  new User("user3");
+
+        user1.setId(1L);
+        user2.setId(2L);
+        user3.setId(3L);
+
+        object1[0] = user1;
         object1[1] = 23.4;
 
-        object2[0] = new BigInteger("2");
+        object2[0] = user2;
         object2[1] = 4.4;
 
-        object3[0] = new BigInteger("3");
+        object3[0] = user3;
         object3[1] = 65.1;
 
         List<Object[]> list = new ArrayList<>();
@@ -91,13 +99,13 @@ public class TextServiceTest {
         Mockito.when(textRepository.getScoresForText(textId)).thenReturn(list);
 
         // when
-        Map<Long, Double> scoresForText = textService.getScoresForText(textId);
+        Map<User, Double> scoresForText = textService.getScoresForText(textId);
 
         // then
-        Map<Long, Double> map = new HashMap<>();
-        map.put(1L, 23.4);
-        map.put(2L, 4.4);
-        map.put(3L, 65.1);
+        Map<User, Double> map = new HashMap<>();
+        map.put(user1, 23.4);
+        map.put(user2, 4.4);
+        map.put(user3, 65.1);
 
         assertThat(scoresForText).isEqualTo(map);
     }
