@@ -34,10 +34,13 @@
         </div>
 
         <div th:if="${textList}">
-            <div th:each="text : ${textList}">
+            <div th:each="text, iter : ${textList}" class="database-item">
                     <div class="col-md-7">
                         <p class="texts-best" th:text="${text.getKey().getText()}"></p>
                         <p class="blog-post-meta" th:text="${text.getKey().getAuthor()}"></p>
+                        <div id="posters">
+                            <img th:src="@{|/posters/${text.getKey().getId()}.jpg|}" height="400" width="300" class="poster-img"/>
+                        </div>
                     </div>
                     <div class="col-md-5">
                         <table class="table table-hover table-custom" id="users-table" th:if="${text.getValue()}">
@@ -54,7 +57,6 @@
                     </div>
             </div>
         </div>
-
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

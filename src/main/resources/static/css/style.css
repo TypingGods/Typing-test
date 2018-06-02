@@ -17,6 +17,11 @@ button[disabled], .btn.disabled, .btn[disabled] {
     color: #62a8e1;
 }
 
+.about-header {
+    margin-bottom: 30px;
+    color: #62a8e1;
+}
+
 .title-header {
     font-size: 45px;
 }
@@ -39,11 +44,24 @@ button[disabled], .btn.disabled, .btn[disabled] {
 }
 
 .texts-best {
-    font-size: 15px;
+    font-size: 20px;
+    font-style: italic;
 }
 
 .graph {
     margin-bottom: 40px;
+}
+
+.articles-wrapper {
+    margin-top: 50px;
+}
+
+.poster-img {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.database-item {
+    padding: 20px;
 }
 
 #test-space {
