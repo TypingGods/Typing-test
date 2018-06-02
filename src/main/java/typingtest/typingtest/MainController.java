@@ -46,6 +46,11 @@ public class MainController implements ErrorController {
         return "database";
     }
 
+    @RequestMapping("/about")
+    public String about() {
+        return "about";
+    }
+
     @Override
     public String getErrorPath() {
         return PATH;
