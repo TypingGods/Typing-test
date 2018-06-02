@@ -1,17 +1,77 @@
 body {
     padding-top:30px;
 }
-.container {
+
+button[disabled], .btn.disabled, .btn[disabled] {
+    cursor: pointer;
+}
+
+.test-containers {
     font-family: Georgia, Times, "Times New Roman", serif;
-    margin-bottom: 50px;
-    background: linear-gradient(to bottom right, #174f56, #7fd3c8);
-    padding: 50px;
-    color: white;
     width: 100%;
 }
 
-.titleHeader {
+.stats-header {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    color: #62a8e1;
+}
+
+.about-header {
+    margin-bottom: 30px;
+    color: #62a8e1;
+}
+
+.title-header {
     font-size: 45px;
+}
+
+.texts {
+    font-size: 30px;
+    letter-spacing: 2px;
+}
+
+.units {
+    font-size: 15px;
+} 
+
+.stat-td {
+    padding: 20px !important;
+}
+
+.table-custom {
+    margin-bottom: 40px;
+}
+
+.texts-best {
+    font-size: 20px;
+    font-style: italic;
+}
+
+.graph {
+    margin-bottom: 40px;
+}
+
+.articles-wrapper {
+    margin-top: 50px;
+}
+
+.poster-img {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.database-item {
+    padding: 20px;
+}
+
+#test-space {
+    padding-top: 50px;
+    background: #00d2ff; 
+    background: linear-gradient(135deg, #928DAB 0%, #00d2ff 100%); 
+}
+
+#scores {
+   font-size: 25px; 
 }
 
 #typingPanel {
@@ -21,36 +81,35 @@ body {
     margin-bottom: 50px;
 }
 
-.texts {
-    font-size: 30px;
-    margin-left: 20px;
-    letter-spacing: 2px;
+#stats-table th {
+    padding: 20px;
 }
 
-#speed {
-    padding-right: 50px;
+#text-wrapper {
+    padding-bottom: 30px;
 }
 
-#time {
-    padding-left: 50px;
-}
-.units {
-    font-size: 15px;
-} 
-
-#unitSpeed {
-    padding-right: 35px;
+#user-input-wrapper {
+    min-height: 75px;
+    padding-top: 15px;
 }
 
-#unitTime {
-    padding-left: 70px;
+#user-input-bordering {
+   border-bottom: solid grey 3px; 
 }
 
-#textWrapper {
-    margin: 0 auto;
-   width: 70%;
+#stats-table thead {
+    background: #b2dfee;  /* fallback for old browsers */
 }
 
-button[disabled], .btn.disabled, .btn[disabled] {
-    cursor: pointer;
+#users-table thead {
+    background: #b2dfee;  /* fallback for old browsers */ 
+}
+
+#final-grade {
+    color: crimson;
+}
+
+#scores, #feedback {
+    display: none;
 }

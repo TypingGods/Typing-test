@@ -31,25 +31,25 @@ public class MainService {
         return textService.getText((long) textId);
     }
 
+    public List<Text> getAllTexts() {
+        return textService.getAllTexts();
+    }
+
     public Map<User,Double> getScoresForText(int textId) {
-        Map<Long, Double> result = textService.getScoresForText((long) textId);
-        Map<User, Double>  map = new TreeMap<>(Comparator.comparing(User::getId));
-        if(result != null && !result.isEmpty()){
-            result.forEach((aLong, aDouble) -> map.put(userService.getUser(aLong), aDouble));
-        }
-        return map;
+        return textService.getScoresForText((long) textId);
     }
 
     public Map<Text, Map<User,Double>> getScoresForAllTexts() {
         Map<Text, Map<User,Double>>  map = new TreeMap<>(Comparator.comparing(Text::getId));
-        for (int i = 1; i <= 5; i++) map.put(getText(i), getScoresForText(i));
+        for(Text text: getAllTexts())
+            map.put(text, getScoresForText(Math.toIntExact(text.getId())));
         return map;
     }
 
     public boolean addScoreForUser(String userName, int textId, Double score) {
         List<Double> tmp = textService.getBestScoresForText((long) textId);
 
-        if(tmp.size() < 10 || score > tmp.get(tmp.size()-1)){
+        if(tmp.size() < 30 || score > tmp.get(tmp.size()-1)){
             User user = new User(userName);
             Text text = textService.getText((long) textId);
             UserText userText = new UserText(user, text, score);

@@ -20,7 +20,6 @@ var TypingTest = {
 
     init: function () {
         var startButton = document.getElementById('start-button');
-        var refreshDOM = 0;
         startButton.onclick = function () {
             TypingTest.testStarted = true;
             TypingTest.timeLeft = TypingTest.initialTime;
@@ -33,14 +32,11 @@ var TypingTest = {
             if(typeof TypingTest.counter !== undefined)
                 clearInterval(TypingTest.counter);
             TypingTest.counter = setInterval(function () {
-                refreshDOM++;
                 if (TypingTest.timeLeft > 0) {
                     TypingTest.timeLeft -= 0.1;
-
-                    if(refreshDOM % 10 == 0) {
-                        TypingTest.timeInDOM.innerHTML = TypingTest.timeLeft.toFixed(0);
-                        TypingTest.speedInDOM.innerHTML = TypingTest.typingSpeedCPM();
-                    }
+                    TypingTest.timeInDOM.innerHTML = TypingTest.timeLeft;
+                    TypingTest.speedInDOM.innerHTML = TypingTest.typingSpeedCPM();
+                    TypingTest.speedInDOMwpm.innerHTML = TypingTest.typingSpeedWPM();
                 } else {
                     TypingTest.testStarted = false;
                 }
@@ -139,6 +135,7 @@ var TypingTest = {
         checkPoints.push((numOfCheckPoints) * checkPointLength - 1 + divisionRest);
 
         this.checkPoints = checkPoints;
+        //console.log(this.checkPoints);
     },
     typingPace: function() {
         //console.log("currentLetter: " + this.currentLetter);

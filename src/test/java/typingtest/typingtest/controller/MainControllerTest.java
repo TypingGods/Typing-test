@@ -13,6 +13,9 @@ import typingtest.typingtest.MainController;
 import typingtest.typingtest.data.model.Text;
 import typingtest.typingtest.data.service.MainService;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,7 +32,16 @@ public class MainControllerTest {
 
     @Test
     public void whenGetIndex_ThenReturnIndex() throws Exception{
-        Mockito.when(service.getText(anyInt())).thenReturn(new Text());
+        Text text1 = new Text("text1", "author1");
+        Text text2 = new Text("text2", "author2");
+
+        text1.setId(1L);
+        text2.setId(2L);
+
+        List<Text> texts = Arrays.asList(text1, text2);
+
+        Mockito.when(service.getAllTexts()).thenReturn(texts);
+
         mvc.perform(get("/")
                 .contentType(MediaType.TEXT_HTML))
                 .andExpect(status().isOk());

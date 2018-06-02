@@ -7,64 +7,58 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-inverse navbar-default navbar-static-top">
+<nav class="navbar navbar-inverse navbar-default navbar-static-top navbar-fixed-top" >
     <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" th:href="@{'/'}">Main page</a>
+        <div class="navbar-header col-md-1 col-xs-2 nav-element">
+            <a class="navbar-brand" th:href="@{'/'}">Home</a>
         </div>
-        <ul class="nav navbar-nav">
-            <li><a th:href="@{'/database'}">Best scores</a></li>
+        <ul class="nav navbar-nav col-md-1 col-xs-4 nav-element">
+            <li><a th:href="@{'/database'}">Rank</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">About project</a></li>
+        <ul class="nav navbar-nav navbar-right col-md-1 col-xs-2 col-xs-offset-4 nav-element pull-right">
+            <li><a th:href="@{'/about'}">About</a></li>
         </ul>
     </div>
 </nav>
 
 <div class="container">
-    <div class="jumbotron">
-        <h1 class="text-center">Best scores</h1>
+        <h1 class="text-center stats-header">Best scores</h1>
+        <div class="alert alert-success" role="alert" th:if="${added} == true">
+            <strong>Well done!</strong> Your score is good enough to be added to database!
+        </div>
+        <div class="alert alert-danger" role="alert" th:if="${added} == false">
+            <strong>Oh snap!</strong> Your score is too low to be added to database. Try again!
+        </div>
 
         <div th:if="${textList}">
-            <ul class="list-group" th:each="text : ${textList}">
-                <li class="list-group-item">
-                    <p th:text="${text.getKey().getText()}"></p>
-                    <table class="table table-hover" th:if="${text.getValue()}">
-                        <thead>
-                        <tr><th>User name</th><th>Score</th></tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="score : ${text.getValue()}">
-                            <td th:text="${score.getKey().getName()}"></td>
-                            <td th:text="${score.getValue()}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </li>
-            </ul>
+            <div th:each="text, iter : ${textList}" class="database-item">
+                    <div class="col-md-7">
+                        <p class="texts-best" th:text="${text.getKey().getText()}"></p>
+                        <p class="blog-post-meta" th:text="${text.getKey().getAuthor()}"></p>
+                        <div id="posters">
+                            <img th:src="@{|/posters/${text.getKey().getId()}.jpg|}" height="400" width="300" class="poster-img"/>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <table class="table table-hover table-custom" id="users-table" th:if="${text.getValue()}">
+                            <thead>
+                            <tr><th>User name</th><th>Score (CPM)</th></tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="score : ${text.getValue()}">
+                                <td th:text="${score.getKey().getName()}"></td>
+                                <td th:text="${score.getValue()}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
         </div>
-
-        <div th:if="${scores}">
-            <p th:text="${myText.getText()}"></p>
-            <table class="table table-hover">
-                <thead>
-                <tr><th>User name</th><th>Score</th></tr>
-                </thead>
-                <tbody>
-                <tr th:each="score : ${scores}">
-                    <td th:text="${score.getKey().getName()}"></td>
-                    <td th:text="${score.getValue()}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
     </div>
-
-</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

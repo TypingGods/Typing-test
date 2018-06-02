@@ -67,7 +67,7 @@ public class TextRepositoryTest {
         Text text = new Text("Example text", "Example author");
         entityManager.persist(text);
 
-        final int scoresToPutInDB = 15;
+        final int scoresToPutInDB = 45;
 
         for (int i = 0; i < scoresToPutInDB; i++) {
             User user = new User("John_" + i);
@@ -84,7 +84,7 @@ public class TextRepositoryTest {
 
         // then
         assertThat(bestScoresForText).isNotNull();
-        assertThat(bestScoresForText).hasSize(10);
+        assertThat(bestScoresForText).hasSize(30);
         assertThat(bestScoresForText.get(0)).isGreaterThanOrEqualTo(bestScoresForText.get(1));
     }
 

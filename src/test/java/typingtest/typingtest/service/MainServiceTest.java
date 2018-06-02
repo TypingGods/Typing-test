@@ -17,7 +17,6 @@ import typingtest.typingtest.data.service.UserService;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
 
 @RunWith(SpringRunner.class)
 public class MainServiceTest {
@@ -39,57 +38,13 @@ public class MainServiceTest {
     @MockBean
     private TextService textService;
 
-    @Test
-    public void givenText_WhenGetText_ThenTextShouldBeFound() {
-        // given
-        Text text = new Text("text","author");
-        text.setId(1L);
-        Mockito.when(textService.getText(text.getId())).thenReturn(text);
-
-        // when
-        Text receivedText = mainService.getText(Math.toIntExact(text.getId()));
-
-        // then
-        assertThat(receivedText).isEqualTo(text);
-    }
-
-    @Test
-    public void givenScores_WhenGetScoresForText_ThenScoresShouldBeFound() {
-        //given
-        Map<Long, Double> result = new TreeMap<>();
-        result.put(1L, 23.3);
-        result.put(2L, 43.2);
-        result.put(3L, 11.2);
-
-        Text text = new Text("text","author");
-        text.setId(1L);
-
-        User user1 = new User("user1");
-        User user2 = new User("user2");
-        User user3 = new User("user3");
-
-        user1.setId(1L);
-        user2.setId(2L);
-        user3.setId(3L);
-
-        Mockito.when(textService.getScoresForText((text.getId()))).thenReturn(result);
-        Mockito.when(userService.getUser(user1.getId())).thenReturn(user1);
-        Mockito.when(userService.getUser(user2.getId())).thenReturn(user2);
-        Mockito.when(userService.getUser(user3.getId())).thenReturn(user3);
-
-        // when
-        Map<User, Double> scoresForText = mainService.getScoresForText(Math.toIntExact(text.getId()));
-
-        // then
-        assertThat(scoresForText).containsExactly(entry(user1, 23.3), entry(user2,43.2), entry(user3, 11.2));
-    }
 
     @Test
     public void givenScores_WhenAddScoreForUser_ThenScoresShouldBeAddedOrNot() {
         // given
         List<Double> scoresList = new ArrayList<>();
         Random random = new Random();
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < 30; ++i)
             scoresList.add(random.nextDouble() * 100);
 
         Text text = new Text("text", "author");
@@ -107,10 +62,49 @@ public class MainServiceTest {
             // when
             boolean added = mainService.addScoreForUser("user", Math.toIntExact(text.getId()), rand);
             // then
-            if (rand > scoresList.get(9))
+            if (rand > scoresList.get(29))
                 assertThat(added).isTrue();
             else
                 assertThat(added).isFalse();
         }
+    }
+
+    @Test
+    public void givenScores_WhenGetScoresForAllText_ThenScoresShouldBeFound() {
+        // given
+        Map<Text, Map<User,Double>>  textMap = new TreeMap<>(Comparator.comparing(Text::getId));
+        Text text1 = new Text("text1", "author1");
+        Text text2 = new Text("text2", "author2");
+
+        text1.setId(1L);
+        text2.setId(2L);
+
+        Map<User, Double> userMap1 = new HashMap<>();
+        Map<User, Double> userMap2 = new HashMap<>();
+
+        User user1 = new User("user1");
+        User user2 = new User("user2");
+
+        Double score1 = 12.3;
+        Double score2 = 78.5;
+
+        userMap1.put(user1, score1);
+        userMap1.put(user2, score2);
+
+        userMap2.put(user1, score2);
+        userMap2.put(user2, score1);
+
+        textMap.put(text1, userMap1);
+        textMap.put(text2, userMap2);
+
+        Mockito.when(textService.getAllTexts()).thenReturn(Arrays.asList(text1, text2));
+        Mockito.when(textService.getScoresForText(text1.getId())).thenReturn(userMap1);
+        Mockito.when(textService.getScoresForText(text2.getId())).thenReturn(userMap2);
+
+        // when
+        Map<Text, Map<User,Double>> result = mainService.getScoresForAllTexts();
+
+        // then
+        assertThat(result).isEqualTo(textMap);
     }
 }
