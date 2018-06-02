@@ -39,20 +39,24 @@ var TypingTest = {
             TypingTest.currentSpeed = 0;
             TypingTest.currentLetter = 0;
             TypingTest.enteredTextInDOM.innerHTML = "";
+            var refreshDOM = 0;
             window.addEventListener("keydown", TypingTest.readLetter);
             window.addEventListener("keypress", TypingTest.readLetter);
             if(typeof TypingTest.counter !== undefined)
                 clearInterval(TypingTest.counter);
             TypingTest.counter = setInterval(function () {
                 if (TypingTest.timeLeft > 0) {
-                    TypingTest.timeLeft -= 1;
-                    TypingTest.timeInDOM.innerHTML = TypingTest.timeLeft;
-                    TypingTest.speedInDOM.innerHTML = TypingTest.typingSpeedCPM();
-                    TypingTest.speedInDOMwpm.innerHTML = TypingTest.typingSpeedWPM();
+                    TypingTest.timeLeft -= 0.1;
+                    refreshDOM++;
+                    if(refreshDOM % 10 == 0) {
+                        TypingTest.timeInDOM.innerHTML = TypingTest.timeLeft.toFixed(0);
+                        TypingTest.speedInDOM.innerHTML = TypingTest.typingSpeedCPM();
+                        TypingTest.speedInDOMwpm.innerHTML = TypingTest.typingSpeedWPM();
+                    }
                 } else {
                     TypingTest.testStarted = false;
                 }
-            }, 1000);
+            }, 100);
             startButton.blur();
             document.getElementById('start-button').disabled = true;
         };
