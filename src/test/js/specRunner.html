@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Jasmine Spec Runner v3.1.0</title>
+
+    <link rel="shortcut icon" type="image/png" href="../../../node_modules/jasmine-core/images/jasmine_favicon.png">
+    <link rel="stylesheet" href="../../../node_modules/jasmine-core/lib/jasmine-core/jasmine.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../../../node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
+    <script src="../../../node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+    <script src="../../../node_modules/jasmine-core/lib/jasmine-core/boot.js"></script>
+
+    <!-- include source files here... -->
+    <script src="../../main/resources/static/scripts.js"></script>
+
+    <!-- include spec files here... -->
+    <script src="spec/specHelper.js"></script>
+    <script src="spec/scriptsSpec.js"></script>
+
+    <!-- testing html part -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-default navbar-static-top navbar-fixed-top" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{'/'}">Main page</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{'/database'}">Best scores</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">About project</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div>
+        <button type="button" class="btn btn-primary btn-lg" id="start-button">Start</button>
+        <button type="button" class="btn btn-primary btn-lg" id="reset-button">Reset</button>
+    </div>
+    <h2 class="text-center titleHeader">TYPING SPEED TEST</h2>
+    <div class="row" id="typingPanel">
+        <div class="col-xs-6 text-right">
+            <span id="speed">0.00</span>
+            <div class="units" id="unitSpeed">CHARS / MIN</div>
+        </div>
+        <div class="col-xs-6 text-left">
+            <span id="time">120</span>
+            <div class="units" id="unitTime">SEC</div>
+        </div>
+    </div>
+    <div id="textWrapper">
+        <div>
+            <p id="text-id" hidden th:text="${text.getId()}"></p>
+            <p id="test-text" class="texts" th:text="${text.getText()}">
+            </p>
+        </div>
+        <div>
+            <p id="entered-text" class="texts">
+
+            </p>
+        </div>
+    </div>
+    <div id="nickname-modal" class="modal fade in" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="toggleVisibility('nickname-modal')">&times;</button>
+                    <h4 class="modal-title">Typing test is done</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Insert your name</label>
+                    <input type="text" name="nickname" id="nickname-input">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="sendRequest()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
