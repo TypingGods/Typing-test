@@ -3,10 +3,13 @@ package typingtest.typingtest.data.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import typingtest.typingtest.data.model.Text;
+import typingtest.typingtest.data.model.User;
 import typingtest.typingtest.data.repository.TextRepository;
 
-import java.math.BigInteger;
 import java.util.*;
+
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toMap;
 
 @Service
 public class TextService {
@@ -36,15 +39,18 @@ public class TextService {
         return textRepository.getBestScoresForText(textId);
     }
 
-    public  Map<Long, Double> getScoresForText(Long textId){
+    public  Map<User, Double> getScoresForText(Long textId){
         List<Object[]> result = textRepository.getScoresForText(textId);
-        Map<Long, Double> map = null;
         if(result != null && !result.isEmpty()){
-            map = new TreeMap<>();
+            Map<User, Double> map = new HashMap<>();
             for (Object[] object : result) {
-                map.put(((BigInteger)object[0]).longValue(), (Double) object[1]);
+                map.put((User)object[0], (Double) object[1]);
             }
+            return map.entrySet().stream()
+                    .sorted(Collections.reverseOrder(comparing(Map.Entry::getValue)))
+                    .collect(toMap(Map.Entry::getKey, Map.Entry::getValue,
+                            (e1,e2) -> e1, LinkedHashMap::new));
         }
-        return map;
+        return new HashMap<>();
     }
 }
