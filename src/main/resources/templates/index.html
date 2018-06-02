@@ -13,40 +13,43 @@
 <body>
 <nav class="navbar navbar-inverse navbar-default navbar-static-top navbar-fixed-top" >
     <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" th:href="@{'/'}">Main page</a>
+        <div class="navbar-header col-md-1 col-xs-2 nav-element">
+            <a class="navbar-brand" th:href="@{'/'}">Home</a>
         </div>
-        <ul class="nav navbar-nav">
-            <li><a th:href="@{'/database'}">Best scores</a></li>
+        <ul class="nav navbar-nav col-md-1 col-xs-4 nav-element">
+            <li><a th:href="@{'/database'}">Rank</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a th:href="@{'/about'}">About project</a></li>
+        <ul class="nav navbar-nav navbar-right col-md-1 col-xs-2 col-xs-offset-4 nav-element pull-right">
+            <li><a th:href="@{'/about'}">About</a></li>
         </ul>
     </div>
 </nav>
 <div class="container-fluid test-containers" id="test-space">
     <div id="test-wrapper">
         <div class="row">
-            <div class="btn-group col-md-3">
+            <div class="btn-group col-md-3 col-xs-5">
                 <button type="button" class="btn btn-primary btn-lg" id="start-button">Start</button>
                 <button type="button" class="btn btn-primary btn-lg" id="reset-button">Reset</button>
             </div>
-            <div class="col-md-1 col-md-offset-8" id="browserInfo"><img src="icons/chrome.png" height="18" width="18" alt="chrome"> <img src="icons/opera.png" alt="opera" height="20" width="20"></div>
+            <div class="col-md-1 col-md-offset-8 col-xs-3 col-xs-offset-4" id="browserInfo">
+                <img src="icons/chrome.png" class="pull-right" height="18" width="18" alt="chrome">
+                 <img src="icons/opera.png" alt="opera" class="pull-right" height="20" width="20">
+                </div>
         </div>
         <h2 class="text-center title-header">TYPING TEST</h2>
         <div class="row" id="typingPanel">
-            <div class="col-md-2 col-md-offset-3 text-center">
+            <div class="col-md-2 col-md-offset-3 col-xs-4 text-center">
                 <span id="speed">0.00</span>
             </div>
-            <div class="col-md-2 text-center">
+            <div class="col-md-2 col-xs-4 text-center">
                 <span id="speedWPM">0.00</span>
             </div>
-            <div class="col-md-2 text-center">
+            <div class="col-md-2 col-xs-4 text-center">
                 <span id="time">120</span>
             </div>
-            <div class="col-md-2 col-md-offset-3 text-center units" id="unitSpeed">CHARS / MIN</div>
-            <div class="col-md-2 text-center units" id="unitSpeedWPM">WORDS / MIN</div>
-            <div class="col-md-2 text-center units" id="unitTime">SEC</div>
+            <div class="col-md-2 col-md-offset-3 col-xs-4 text-center units" id="unitSpeed">CHARS / MIN</div>
+            <div class="col-md-2 col-xs-4 text-center units" id="unitSpeedWPM">WORDS / MIN</div>
+            <div class="col-md-2 col-xs-4 text-center units" id="unitTime">SEC</div>
         </div>
     </div>
     <div class="row">

@@ -39,15 +39,17 @@ button[disabled], .btn.disabled, .btn[disabled] {
 }
 
 .texts-best {
-    font-size: 20px;
-    letter-spacing: 1px;
+    font-size: 15px;
+}
+
+.graph {
+    margin-bottom: 40px;
 }
 
 #test-space {
     padding-top: 50px;
     background: #00d2ff; 
-    background: -webkit-linear-gradient(to right, #928DAB, #00d2ff);
-    background: linear-gradient(to right, #928DAB, #00d2ff); 
+    background: linear-gradient(135deg, #928DAB 0%, #00d2ff 100%); 
 }
 
 #scores {
