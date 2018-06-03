@@ -40,10 +40,36 @@ button[disabled], .btn.disabled, .btn[disabled] {
 }
 
 .table-custom {
-    margin-bottom: 40px;
+    font-size: 15px;
+    margin-bottom: 40px; 
+    display: table;
+    width: 100%;
+}
+
+.table-custom thead, tbody {
+    float: left;
+    width: 100%;
+}
+
+.table-custom tbody {
+    overflow: auto;
+    height: 380px;
+}
+
+.table-custom tr {
+    width: 100%;
+    display: table;
+}
+
+.table-custom td:first-child {
+    width: 20%;
+}
+.table-custom td {
+    width: 35%;
 }
 
 .texts-best {
+    color: #2f2d2d;
     font-size: 20px;
     font-style: italic;
 }
@@ -58,10 +84,26 @@ button[disabled], .btn.disabled, .btn[disabled] {
 
 .poster-img {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      margin-bottom: 20px;
 }
 
 .database-item {
-    padding: 20px;
+    padding-bottom: 50px;
+    margin-bottom: 50px;
+    border-bottom: solid #b2dfee 10px;
+}
+
+.texts-author {
+    color: #2f2d2d;
+    margin-bottom: 40px;
+}
+
+.label-custom {
+    font-weight: normal !important;
+}
+
+.modal-header-custom {
+    color: green;
 }
 
 #test-space {
@@ -112,4 +154,9 @@ button[disabled], .btn.disabled, .btn[disabled] {
 
 #scores, #feedback {
     display: none;
+}
+
+#nickname-modal {
+    font-size: 18px;
+    font-weight: normal !important;
 }

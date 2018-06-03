@@ -34,27 +34,29 @@
         </div>
 
         <div th:if="${textList}">
-            <div th:each="text, iter : ${textList}" class="database-item">
-                    <div class="col-md-7">
-                        <p class="texts-best" th:text="${text.getKey().getText()}"></p>
-                        <p class="blog-post-meta" th:text="${text.getKey().getAuthor()}"></p>
-                        <div id="posters">
-                            <img th:src="@{|/posters/${text.getKey().getId()}.jpg|}" height="400" width="300" class="poster-img"/>
-                        </div>
+            <div th:each="text: ${textList}" class="database-item">
+                <div class="col-md-7">
+                    <p class="texts-best" th:text="${text.getKey().getText()}"></p>
+                    <p class="blog-post-meta texts-author" th:text="${text.getKey().getAuthor()}"></p>
+                    <div id="posters">
+                        <img th:src="@{|/posters/${text.getKey().getId()}.jpg|}" height="300" width="200" class="poster-img"/>
                     </div>
-                    <div class="col-md-5">
-                        <table class="table table-hover table-custom" id="users-table" th:if="${text.getValue()}">
-                            <thead>
-                            <tr><th>User name</th><th>Score (CPM)</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="score : ${text.getValue()}">
-                                <td th:text="${score.getKey().getName()}"></td>
-                                <td th:text="${score.getValue()}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                </div>
+                <div class="col-md-5">
+                    <table class="table table-hover table-custom" id="users-table" th:if="${text.getValue()}" >
+                        <thead>
+                        <tr><th>Rank</th><th>User name</th><th>Score (CPM)</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="score, iter : ${text.getValue()}">
+                            <td th:text="${iter.index + 1}"></td>
+                            <td th:text="${score.getKey().getName()}"></td>
+                            <td th:text="${score.getValue()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row" id="separator"></div>
             </div>
         </div>
     </div>

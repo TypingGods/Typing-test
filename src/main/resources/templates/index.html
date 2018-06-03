@@ -129,14 +129,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" onclick="toggleVisibility('nickname-modal')">&times;</button>
-                    <h4 class="modal-title">Typing test is done</h4>
+                    <h4 class="modal-title text-center modal-header-custom">Typing test is done</h4>
                 </div>
                 <div class="modal-body">
-                    <label for="nickname-input">Insert your name</label>
-                    <input type="text" name="nickname" id="nickname-input">
+                    <label for="nickname-input" class="col-form-label label-custom">Insert your name: </label>
+                    <input type="text" name="nickname" id="nickname-input" class="form-control">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="sendRequest()">Confirm</button>
+                    <button type="button" class="btn btn-primary center-block" onclick="sendRequest()">Confirm</button>
                 </div>
             </div>
         </div>
