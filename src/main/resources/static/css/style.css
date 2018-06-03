@@ -46,7 +46,7 @@ button[disabled], .btn.disabled, .btn[disabled] {
     width: 100%;
 }
 
-.table-custom thead, tbody {
+.table-custom thead, .table-custom tbody {
     float: left;
     width: 100%;
 }
@@ -159,4 +159,8 @@ button[disabled], .btn.disabled, .btn[disabled] {
 #nickname-modal {
     font-size: 18px;
     font-weight: normal !important;
+}
+
+#ajax-success-alert {
+    display: none;
 }

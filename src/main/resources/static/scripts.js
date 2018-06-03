@@ -403,14 +403,19 @@ function sendRequest(){
     toggleVisibility("nickname-modal");
 
     var url = document.URL + "/database";
-    $.post(url,
-        {
+
+    $.ajax({
+    url: url,
+    type:'post',
+    data:  {
             userName : nickname,
             score: TypingTest.typingSpeedCPM().toString(),
             textId: TypingTest.textId
-        },
-        function(data){
-            $("html").html(data);
-        });
+           },
+    success:function(){
+       
+    }
+    });
+
 
 }
