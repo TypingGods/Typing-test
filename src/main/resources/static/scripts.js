@@ -412,9 +412,7 @@ function sendRequest(){
             score: TypingTest.typingSpeedCPM().toString(),
             textId: TypingTest.textId
            },
-    success:function(){
-       
-    }
+    success:function(){ }
     });
 
 

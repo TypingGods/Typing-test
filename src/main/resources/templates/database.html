@@ -6,24 +6,29 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="icon" href="icons/mainIcon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-default navbar-static-top navbar-fixed-top" >
-    <div class="container-fluid">
-        <div class="navbar-header col-md-1 col-xs-2 nav-element">
-            <a class="navbar-brand" th:href="@{'/'}">Home</a>
-        </div>
-        <ul class="nav navbar-nav col-md-1 col-xs-4 nav-element">
-            <li><a th:href="@{'/database'}">Rank</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right col-md-1 col-xs-2 col-xs-offset-4 nav-element pull-right">
+<nav class="navbar navbar-default  navbar-static-top navbar-fixed-top">
+    <div class="navbar-header">
+        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand">TYPING TEST</a>
+    </div>
+    <div id="navbarCollapse" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{'/'}">Home</a></li>
+            <li class="active"><a th:href="@{'/database'}">Database</a></li>
             <li><a th:href="@{'/about'}">About</a></li>
         </ul>
     </div>
 </nav>
-
 <div class="container">
         <h1 class="text-center stats-header">Best scores</h1>
         <div class="alert alert-success" role="alert" th:if="${added} == true">
@@ -39,7 +44,7 @@
                     <p class="texts-best" th:text="${text.getKey().getText()}"></p>
                     <p class="blog-post-meta texts-author" th:text="${text.getKey().getAuthor()}"></p>
                     <div id="posters">
-                        <img th:src="@{|/posters/${text.getKey().getId()}.jpg|}" height="300" width="200" class="poster-img"/>
+                        <img th:src="@{|/posters/${text.getKey().getId()}.jpg|}" height="260" width="200" class="poster-img"/>
                     </div>
                 </div>
                 <div class="col-md-5">
