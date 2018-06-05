@@ -13,6 +13,7 @@ import typingtest.typingtest.data.model.UserText;
 import typingtest.typingtest.data.repository.TextRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 
 import java.util.*;
 
@@ -32,46 +33,85 @@ public class TextRepositoryTest {
         // given
         User user1 = new User("Adam");
         User user2 = new User("John");
+        User user3 = new User("Walter");
 
-        Text text = new Text("Example text", "Example author");
+        Text text1 = new Text("text1", "author1");
+        Text text2 = new Text("text2", "author2");
 
         Double score1 = 13.3;
         Double score2 = 22.3;
+        Double score3 = 314.2;
 
-        UserText userText1 = new UserText(user1, text, score1);
-        UserText userText2 = new UserText(user2, text, score2);
+        UserText userText1 = new UserText(user1, text1, score1);
+        UserText userText2 = new UserText(user2, text1, score2);
+        UserText userText3 = new UserText(user3, text1, score3);
+        UserText userText4 = new UserText(user3, text2, score1);
 
         user1.getUserTexts().add(userText1);
         user2.getUserTexts().add(userText2);
+        user3.getUserTexts().add(userText3);
+        user3.getUserTexts().add(userText4);
 
-        entityManager.persist(text);
+        entityManager.persist(text1);
+        entityManager.persist(text2);
         entityManager.persist(user1);
         entityManager.persist(user2);
+        entityManager.persist(user3);
+        entityManager.flush();
+
+        // when
+        List<Object[]> scoresForText = textRepository.getScoresForText(text1.getId());
+        Map<User, Double> scores = new HashMap<>();
+        for (Object[] object : scoresForText) {
+            scores.put((User)object[0], (Double) object[1]);
+        }
+
+        // then
+        assertThat(scores).isNotEmpty().hasSize(3);
+        assertThat(scores).contains(entry(user1, score1), entry(user2, score2), entry(user3, score3));
+        assertThat(scores).doesNotContain(entry(user3, score1));
+    }
+
+    @Test
+    public void givenNoUsersAndScoresInDB_WhenGetScoresForText_ThenReturnEmptyList() {
+        // given
+        Text text = new Text("text", "author");
+
+        entityManager.persist(text);
         entityManager.flush();
 
         // when
         List<Object[]> scoresForText = textRepository.getScoresForText(text.getId());
-        List<Double> scores = new ArrayList<>();
-        for (Object[] object : scoresForText) {
-            scores.add((double) object[1]);
-        }
 
         // then
-        assertThat(score1).isIn(scores);
-        assertThat(score2).isIn(scores);
+        assertThat(scoresForText).isNotNull();
+        assertThat(scoresForText).isEmpty();
+    }
+
+    @Test
+    public void givenNoTextInDB_WhenGetScoresForText_ThenReturnEmptyList() {
+        // given
+        Long textId = 1L;
+
+        // when
+        List<Object[]> scoresForText = textRepository.getScoresForText(textId);
+
+        // then
+        assertThat(scoresForText).isNotNull();
+        assertThat(scoresForText).isEmpty();
     }
 
     @Test
     public void givenTextAndUsersInDB_WhenGetBestScoresForText_ThenReturnProperScores() {
         // given
-        Text text = new Text("Example text", "Example author");
+        Text text = new Text("text", "author");
         entityManager.persist(text);
 
         final int scoresToPutInDB = 45;
 
         for (int i = 0; i < scoresToPutInDB; i++) {
             User user = new User("John_" + i);
-            Double score = new Random().nextDouble() * 100.0;
+            Double score = new Random().nextDouble() * 500.0;
             UserText userText = new UserText(user, text, score);
             user.getUserTexts().add(userText);
             entityManager.persist(user);
@@ -84,8 +124,35 @@ public class TextRepositoryTest {
 
         // then
         assertThat(bestScoresForText).isNotNull();
-        assertThat(bestScoresForText).hasSize(30);
-        assertThat(bestScoresForText.get(0)).isGreaterThanOrEqualTo(bestScoresForText.get(1));
+        assertThat(bestScoresForText).isNotEmpty().hasSize(30);
+        assertThat(bestScoresForText).isSortedAccordingTo(Comparator.reverseOrder());
     }
 
+    @Test
+    public void givenNoUsersAndScoresInDB_WhenGetBestScoresForText_ThenReturnEmptyList() {
+        // given
+        Text text = new Text("text", "author");
+        entityManager.persist(text);
+        entityManager.flush();
+
+        // when
+        List<Double> bestScoresForText = textRepository.getBestScoresForText(text.getId());
+
+        // then
+        assertThat(bestScoresForText).isNotNull();
+        assertThat(bestScoresForText).isEmpty();
+    }
+
+    @Test
+    public void givenNoTextInDB_WhenGetBestScoresForText_ThenReturnEmptyList() {
+        // given
+        Long textId = 1L;
+
+        // when
+        List<Double> bestScoresForText = textRepository.getBestScoresForText(textId);
+
+        // then
+        assertThat(bestScoresForText).isNotNull();
+        assertThat(bestScoresForText).isEmpty();
+    }
 }
