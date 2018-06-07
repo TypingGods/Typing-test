@@ -33,6 +33,8 @@ var TypingTest = {
     init: function () {
         var startButton = document.getElementById('start-button');
         startButton.onclick = function () {
+            TypingTest.animateCircles();
+
             TypingTest.testStarted = true;
             TypingTest.timeLeft = TypingTest.initialTime;
             TypingTest.wrongLetters = 0;
@@ -387,8 +389,14 @@ var TypingTest = {
         });
         document.getElementById('linear-chart').style.height = "370px";
         linearChart.render();
-
-
+    },
+    animateCircles: function () {
+        document.getElementById('stableCircles').style.display = 'none';
+        document.getElementById('countCircles').style.display = 'block';
+        setTimeout(function () {
+            document.getElementById('countCircles').style.display = 'none';
+            document.getElementById('test-text').style.color = 'black';
+        }, 4500);
     }
 };
 TypingTest.init();
