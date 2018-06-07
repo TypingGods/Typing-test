@@ -1,6 +1,7 @@
 var TypingTest = {
     initialTime: 120,
     timeLeft: 0, //in seconds
+    animationTimeLeft: 4.5,
     currentSpeed: 0,
     testStarted: false,
     currentLetter: 0,
@@ -40,23 +41,27 @@ var TypingTest = {
             TypingTest.wrongLetters = 0;
             TypingTest.currentSpeed = 0;
             TypingTest.currentLetter = 0;
-            TypingTest.enteredTextInDOM.innerHTML = "";
+
             var refreshDOM = 0;
             window.addEventListener("keydown", TypingTest.readLetter);
             window.addEventListener("keypress", TypingTest.readLetter);
             if(typeof TypingTest.counter !== undefined)
                 clearInterval(TypingTest.counter);
             TypingTest.counter = setInterval(function () {
-                if (TypingTest.timeLeft > 0) {
-                    TypingTest.timeLeft -= 0.1;
-                    refreshDOM++;
-                    if(refreshDOM % 10 == 0) {
-                        TypingTest.timeInDOM.innerHTML = TypingTest.timeLeft.toFixed(0);
-                        TypingTest.speedInDOM.innerHTML = TypingTest.typingSpeedCPM();
-                        TypingTest.speedInDOMwpm.innerHTML = TypingTest.typingSpeedWPM();
+                if (TypingTest.animationTimeLeft <= 0) {
+                    if (TypingTest.timeLeft > 0) {
+                        TypingTest.timeLeft -= 0.1;
+                        refreshDOM++;
+                        if (refreshDOM % 10 == 0) {
+                            TypingTest.timeInDOM.innerHTML = TypingTest.timeLeft.toFixed(0);
+                            TypingTest.speedInDOM.innerHTML = TypingTest.typingSpeedCPM();
+                            TypingTest.speedInDOMwpm.innerHTML = TypingTest.typingSpeedWPM();
+                        }
+                    } else {
+                        TypingTest.testStarted = false;
                     }
                 } else {
-                    TypingTest.testStarted = false;
+                    TypingTest.animationTimeLeft -= 0.1;
                 }
             }, 100);
             startButton.blur();
@@ -396,6 +401,7 @@ var TypingTest = {
         setTimeout(function () {
             document.getElementById('countCircles').style.display = 'none';
             document.getElementById('test-text').style.color = 'black';
+            TypingTest.enteredTextInDOM.innerHTML = "";
         }, 4500);
     }
 };
