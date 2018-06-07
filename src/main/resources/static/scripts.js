@@ -97,6 +97,7 @@ var TypingTest = {
         points += parseInt(accuracy);
         var grade = TypingTest.getFinalGrade(points);
         console.log(grade);
+        document.getElementById('entered-text').style.display = 'none';
         TypingTest.displayResults(grade, deviation);
         TypingTest.showFeedback(speed, accuracy, deviation);
         TypingTest.calculateChart();
