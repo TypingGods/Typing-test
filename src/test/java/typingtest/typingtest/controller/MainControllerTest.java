@@ -52,6 +52,18 @@ public class MainControllerTest {
     }
 
     @Test
+    public void whenGetIndexWithNoTextsInDB_ThenReturnIndexAndMessage() throws Exception{
+        Mockito.when(mainService.getAllTexts()).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/")
+                .contentType(MediaType.TEXT_HTML))
+                .andExpect(status().isOk())
+                .andExpect(view().name("index"))
+                .andExpect(content().string(containsString("TYPING TEST")))
+                .andExpect(content().string(containsString("There is no texts in database!")));
+    }
+
+    @Test
     public void whenGetDatabase_ThenReturnDatabase() throws Exception{
         Text text1 = new Text("To be, or not to be, that is the question", "William Shakespeare");
         Text text2 = new Text("I do know some things", "Jon Snow");
@@ -95,7 +107,7 @@ public class MainControllerTest {
     }
 
     @Test
-    public void whenAddToDatabase_ThenReturnDatabaseAndMessage() throws Exception{
+    public void whenAddToDatabase_ThenReturnDatabase() throws Exception{
         int textId = 1;
         Double score = 314.15;
         String userName = "Jack Sparrow";
@@ -112,31 +124,6 @@ public class MainControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("database"))
                 .andExpect(content().string(containsString("Best scores")))
-                .andExpect(content().string(containsString("Your score is good enough to be added to database!")))
-                .andExpect(model().attribute("added", is(true)))
-                .andExpect(model().attribute("textList", Collections.emptyMap()));
-    }
-
-    @Test
-    public void whenNotAddingToDatabase_ThenReturnDatabaseAndMessage() throws Exception{
-        int textId = 3;
-        Double score = 4.01;
-        String userName = "Will Turner";
-
-        Mockito.when(mainService.addScoreForUser(userName, textId, score)).thenReturn(false);
-        Mockito.when(mainService.getScoresForAllTexts()).thenReturn(Collections.emptyMap());
-
-        mockMvc.perform(post("/database")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("userName", userName)
-                .param("textId", String.valueOf(textId))
-                .param("score", String.valueOf(score))
-        )
-                .andExpect(status().isOk())
-                .andExpect(view().name("database"))
-                .andExpect(content().string(containsString("Best scores")))
-                .andExpect(content().string(containsString("Your score is too low to be added to database. Try again!")))
-                .andExpect(model().attribute("added", is(false)))
                 .andExpect(model().attribute("textList", Collections.emptyMap()));
     }
 
