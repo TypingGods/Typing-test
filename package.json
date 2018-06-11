@@ -25,13 +25,15 @@
     "url": "https://github.com/TypingGods/Typing-test/issues"
   },
   "homepage": "https://github.com/TypingGods/Typing-test#readme"
+  
+    // ...snip...
+  'devDependencies': {
+    'karma': '~0.8'
+  },
+  // ...snip...
+  'scripts': {
+     'test': './node_modules/.bin/karma start --single-run --browsers PhantomJS'
+  }
+  // ...snip...
 }
-// ...snip...
-'devDependencies': {
-  'karma': '~0.8'
-},
-// ...snip...
-'scripts': {
-   'test': './node_modules/.bin/karma start --single-run --browsers PhantomJS'
-}
-// ...snip...
+
