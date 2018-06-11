@@ -17,5 +17,5 @@ matrix:
       - sh -e /etc/init.d/xvfb start
     script: 
       - npm install
-      - ./node_modules/.bin/karma start --browsers Firefox --single-run
+      - npm test
       
