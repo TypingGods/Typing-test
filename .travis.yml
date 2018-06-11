@@ -18,4 +18,4 @@ matrix:
         - sh -e /etc/init.d/xvfb start
     install:
         - npm install -g karma-cli
-    script: node_modules/karma/bin/karma start my.conf.js --single-run
+    script: karma start
