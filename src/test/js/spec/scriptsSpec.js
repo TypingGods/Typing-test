@@ -44,26 +44,28 @@ describe("Testing scripts.js", function() {
     });
 
     describe("Testing finishTest()", function() {
-        beforeAll(function() {
+        beforeEach(function() {
             setTestToStart();
             TypingTest.init();
-            TypingTest.testText = "test";
-            TypingTest.testStarted = true;
+            TypingTest.testText = "testtest test test test";
+            TypingTest.makeCheckPoints();
+            jasmine.clock().install();
         });
 
-        it("Should finish the test and stop the counter (set it to undefined).", function() {
-            var e = jQuery.Event("keypress", {keyCode: 74, key: 't'});
-            TypingTest.readLetter(e);
-            e = jQuery.Event("keypress", {keyCode: 65, key: 'e'});
-            TypingTest.readLetter(e);
-            e = jQuery.Event("keypress", {keyCode: 73, key: 's'});
-            TypingTest.readLetter(e);
-            e = jQuery.Event("keypress", {keyCode: 74, key: 't'});
-            TypingTest.readLetter(e);
+        it("Should finish the test and stop the counter.", function() {
+            $("#start-button").trigger("click");
+            typeWithBreaks("testtest test test test", 100);
 
-            expect(TypingTest.counter).toEqual(undefined);
+            var timeLeftBefore = TypingTest.timeLeft;
+            jasmine.clock().tick(2000);
+            var timeLeftAfter = TypingTest.timeLeft;
+
+            expect(timeLeftBefore).toEqual(timeLeftAfter);
         });
 
+        afterEach(function () {
+            jasmine.clock().uninstall();
+        });
     });
 
     describe("Testing typingAccuracy()", function() {
@@ -84,46 +86,63 @@ describe("Testing scripts.js", function() {
             e = jQuery.Event("keypress", {keyCode: 74, key: 'a'});
             TypingTest.readLetter(e);
 
-            //console.log(TypingTest.currentLetter);
-            //console.log(TypingTest.wrongLetters);
-
-            expect(TypingTest.typingAccuracy()).toEqual(75);
+            expect(TypingTest.typingAccuracy()).toEqual("75.00");
         });
 
     });
 
-    describe("Testing typingSpeed()", function() {
+    describe("Testing typingSpeedCPM()", function() {
         beforeAll(function() {
             setTestToStart();
-            TypingTest.init();
-            TypingTest.testText = "testtest";
         });
 
         beforeEach(function() {
-            var timerCallBack = jasmine.createSpy("timerCallBack");
+            TypingTest.init();
             jasmine.clock().install();
         });
 
         it("Should calculate speed.", function() {
-            $("#start-button").trigger("click");
+            TypingTest.testText = "testtest";
+            TypingTest.makeCheckPoints();
 
-            jasmine.clock().tick(1000);
-            var e = jQuery.Event("keypress", {keyCode: 74, key: 't'});
-            TypingTest.readLetter(e);
-            jasmine.clock().tick(1000);
-            e = jQuery.Event("keypress", {keyCode: 65, key: 'e'});
-            TypingTest.readLetter(e);
-            jasmine.clock().tick(1000);
-            e = jQuery.Event("keypress", {keyCode: 73, key: 's'});
-            TypingTest.readLetter(e);
-            jasmine.clock().tick(1000);
-            e = jQuery.Event("keypress", {keyCode: 74, key: 't'});
-            TypingTest.readLetter(e);
+            $("#start-button").trigger("click");
+            typeWithBreaks("test", 1000);
 
             expect(TypingTest.typingSpeedCPM()).toEqual('60.00');
         });
 
+        it("Should calculate speed.", function() {
+            TypingTest.testText = "testtest testtest";
+            TypingTest.makeCheckPoints();
+
+            $("#start-button").trigger("click");
+            typeWithBreaks("testtest testtest", 1000);
+
+            expect(TypingTest.typingSpeedCPM()).toEqual('60.00');
+        });
+
+        it("Should calculate speed without taking wrong letters into account.", function() {
+            TypingTest.testText = "testtest testtest";
+            TypingTest.makeCheckPoints();
+
+            $("#start-button").trigger("click");
+            typeWithBreaks("testtestaaaaaaaa", 1000);
+
+            expect(TypingTest.typingSpeedCPM()).toEqual('30.00');
+        });
+
+        it("Should calculate speed without taking wrong letters into account.", function() {
+            TypingTest.testText = "testtest testtest";
+            TypingTest.makeCheckPoints();
+
+            $("#start-button").trigger("click");
+            typeWithBreaks("testtest", 200);
+
+            expect(TypingTest.typingSpeedCPM()).toEqual('300.00');
+        });
+
         afterEach(function() {
+            setTestToStop();
             jasmine.clock().uninstall();
         });
     });
@@ -132,10 +151,10 @@ describe("Testing scripts.js", function() {
         beforeAll(function() {
             setTestToStart();
             TypingTest.init();
-            TypingTest.testText = "testtest testtest test test testtesttesta te";
         });
 
         it("Should divide testing text to 5 equal parts (except last one).", function() {
+            TypingTest.testText = "testtest testtest test test testtesttesta te";
             TypingTest.makeCheckPoints();
             var length = TypingTest.checkPoints.length;
             for(var i = 0; i < length - 3; i++){
@@ -149,22 +168,40 @@ describe("Testing scripts.js", function() {
 
             expect(len2).toBeGreaterThanOrEqual(len1);
         });
+
+        it("Should divide text 'testtest testtest.' to parts of lenghts: 3, 3, 3, 3, 6.", function() {
+            TypingTest.testText = "testtest testtest.";
+            TypingTest.makeCheckPoints();
+            var length = TypingTest.checkPoints.length;
+
+            for(var i = 0; i < length - 2; i++){
+                var len = TypingTest.checkPoints[i + 1] - TypingTest.checkPoints[i];
+                expect(len).toEqual(3);
+            }
+
+            var len = TypingTest.checkPoints[5] - TypingTest.checkPoints[4];
+
+            expect(len).toEqual(6);
+        });
     });
 
     describe("Testing typingPace()", function() {
-        beforeAll(function() {
+        beforeEach(function() {
             setTestToStart();
             TypingTest.init();
-            TypingTest.testText = "test test test test test ";
-            TypingTest.makeCheckPoints();
+        });
+
+        afterEach(function() {
+            setTestToStop();
         });
 
         beforeEach(function() {
-            var timerCallBack = jasmine.createSpy("timerCallBack");
             jasmine.clock().install();
         });
 
         it("Should calculate typing pace. Text is typed with changing pace (600cpm and 300cpm). Expect these values in certain checkPoints.", function() {
+            TypingTest.testText = "test test test test test ";
+            TypingTest.makeCheckPoints();
             $("#start-button").trigger("click");
 
             typeWithBreaks("test test test", 100);
@@ -172,6 +209,31 @@ describe("Testing scripts.js", function() {
 
             expect(TypingTest.typingPaceMap.get(9)).toEqual("600.00");
             expect(TypingTest.typingPaceMap.get(24)).toEqual("300.00");
+        });
+
+        it("Should calculate typing pace. Text is typed with changing pace (200cpm and 400cpm). Expect these values in certain checkPoints.", function() {
+            TypingTest.testText = "test example example test. test test example example.";
+            TypingTest.makeCheckPoints();
+            $("#start-button").trigger("click");
+
+            typeWithBreaks("test example example test. ", 300);
+            typeWithBreaks("test test example example.", 150);
+
+            expect(TypingTest.typingPaceMap.get(19)).toEqual("200.00");
+            expect(TypingTest.typingPaceMap.get(39)).toEqual("400.00");
+        });
+
+        it("Should calculate typing pace. Text is typed with constant pace (600cpm). Expect this values in all checkPoints.", function() {
+            TypingTest.testText = "test example example test. test test example example.";
+            TypingTest.makeCheckPoints();
+            $("#start-button").trigger("click");
+
+
+            typeWithBreaks("test example example test. test test example example.", 100);
+
+            var speeds = Array.from(TypingTest.typingPaceMap.values());
+            for(var i = 0; i < 5; i++)
+                expect(speeds[i]).toEqual("600.00");
         });
 
         afterEach(function() {

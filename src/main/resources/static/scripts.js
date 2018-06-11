@@ -77,7 +77,7 @@ var TypingTest = {
     },
     finishTest: function () {
         clearInterval(TypingTest.counter);
-        console.log(TypingTest.typingPaceMap);
+        //console.log(TypingTest.typingPaceMap);
         window.removeEventListener("keydown", TypingTest.readLetter, false);
         window.removeEventListener("keypress", TypingTest.readLetter, false);
         console.log("acc: " + TypingTest.calculatePointsForAccuracy() + " speed: " + TypingTest.calculatePointsForSpeed() + " dev: " + TypingTest.calculatePointsForDeviation());
@@ -108,6 +108,7 @@ var TypingTest = {
                 newNode.innerHTML = enteredLetter;
                 if (enteredLetter === TypingTest.testText.charAt(TypingTest.currentLetter)) {
                     newNode.style["background-color"] = "green";
+                    TypingTest.typingPace();
                     TypingTest.correctLetters += 1;
                 } else {
                     newNode.style["background-color"] = "red";
@@ -123,12 +124,11 @@ var TypingTest = {
                 if (TypingTest.enteredTextInDOM.childElementCount > 0) {
                     TypingTest.currentLetter -= 1;
                     if (TypingTest.enteredTextInDOM.lastChild.style['background-color'] === 'green') {
-                        TypingTest.correctLetters -=1;
+                        TypingTest.correctLetters -= 1;
                     }
                     TypingTest.enteredTextInDOM.removeChild(TypingTest.enteredTextInDOM.lastChild);
                 }
             }
-            TypingTest.typingPace();
         }
     },
     typingSpeedCPM: function () {
@@ -160,17 +160,13 @@ var TypingTest = {
         checkPoints.push((numOfCheckPoints) * checkPointLength - 1 + divisionRest);
 
         this.checkPoints = checkPoints;
-        //console.log(this.checkPoints);
     },
     typingPace: function() {
-        //console.log("currentLetter: " + this.currentLetter);
         if(this.currentLetter === this.checkPoints[this.currentCheckPoint]) {
             var temp = this.currentCheckPoint;
             var numOfLetters = this.checkPoints[temp] - this.checkPoints[temp-1];
             var time = this.initialTime - this.timeLeft;
             var currentSpeed = this.currentTypingSpeed(numOfLetters, this.lastCheckPoint, time);
-
-            //console.log("pace: " + currentSpeed);
 
             this.typingPaceMap.set(this.checkPoints[temp], currentSpeed);
             this.lastCheckPoint = time;
@@ -387,8 +383,6 @@ var TypingTest = {
         });
         document.getElementById('linear-chart').style.height = "370px";
         linearChart.render();
-
-
     }
 };
 TypingTest.init();
