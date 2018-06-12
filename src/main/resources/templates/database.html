@@ -31,13 +31,6 @@
 </nav>
 <div class="container">
         <h1 class="text-center stats-header">Best scores</h1>
-        <div class="alert alert-success" role="alert" th:if="${added} == true">
-            <strong>Well done!</strong> Your score is good enough to be added to database!
-        </div>
-        <div class="alert alert-danger" role="alert" th:if="${added} == false">
-            <strong>Oh snap!</strong> Your score is too low to be added to database. Try again!
-        </div>
-
         <div th:if="${textList}">
             <div th:each="text: ${textList}" class="database-item">
                 <div class="col-md-7">
