@@ -2,6 +2,8 @@ var TypingTest = {
     initialTime: 120,
     timeLeft: 0, //in seconds
     currentSpeed: 0,
+    animationTimeLeft: 5,
+    listenersSet: false,
     testStarted: false,
     currentLetter: 0,
     correctLetters: 0,
@@ -40,21 +42,29 @@ var TypingTest = {
             TypingTest.currentLetter = 0;
             TypingTest.enteredTextInDOM.innerHTML = "";
             var refreshDOM = 0;
-            window.addEventListener("keydown", TypingTest.readLetter);
-            window.addEventListener("keypress", TypingTest.readLetter);
+
             if(typeof TypingTest.counter !== undefined)
                 clearInterval(TypingTest.counter);
             TypingTest.counter = setInterval(function () {
-                if (TypingTest.timeLeft > 0) {
-                    TypingTest.timeLeft -= 0.1;
-                    refreshDOM++;
-                    if(refreshDOM % 10 == 0) {
-                        TypingTest.timeInDOM.innerHTML = TypingTest.timeLeft.toFixed(0);
-                        TypingTest.speedInDOM.innerHTML = TypingTest.typingSpeedCPM();
-                        TypingTest.speedInDOMwpm.innerHTML = TypingTest.typingSpeedWPM();
+                if (TypingTest.animationTimeLeft <= 0) {
+                    if (!TypingTest.listenersSet) {
+                        window.addEventListener("keydown", TypingTest.readLetter);
+                        window.addEventListener("keypress", TypingTest.readLetter);
+                        TypingTest.listenersSet = true;
+                    }
+                    if (TypingTest.timeLeft > 0) {
+                        TypingTest.timeLeft -= 0.1;
+                        refreshDOM++;
+                        if (refreshDOM % 10 == 0) {
+                            TypingTest.timeInDOM.innerHTML = TypingTest.timeLeft.toFixed(0);
+                            TypingTest.speedInDOM.innerHTML = TypingTest.typingSpeedCPM();
+                            TypingTest.speedInDOMwpm.innerHTML = TypingTest.typingSpeedWPM();
+                        }
+                    } else {
+                        TypingTest.testStarted = false;
                     }
                 } else {
-                    TypingTest.testStarted = false;
+                    TypingTest.animationTimeLeft -= 0.1;
                 }
             }, 100);
             startButton.blur();
