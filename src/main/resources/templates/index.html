@@ -58,10 +58,17 @@
             <div class="col-md-2 col-xs-4 text-center units" id="unitTime">SEC</div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="parent-anim">
         <div class="col-md-10 col-md-offset-1 col-sm-offset-1 col-sm-10 col-xs-offset-1 col-xs-10" id="text-wrapper" th:if="${textsInDB}==true">
             <p id="text-id" hidden th:text="${text.getId()}"></p>
             <p id="test-text" class="texts" th:text="${text.getText()}"></p>
+        </div>
+        <div id="circle-container-anim">
+            <div id="circle-anim" class="circle-anim center-anim">
+                <div  id="count-anim"></div>
+                <div  id="l-half-anim"></div>
+                <div  id="r-half-anim"></div>
+            </div>
         </div>
         <div class="col-md-10 col-md-offset-1" th:if="${textsInDB}==false">
             <p class="texts">There is no texts in database!</p>
