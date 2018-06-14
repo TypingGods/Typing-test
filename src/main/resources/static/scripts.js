@@ -65,10 +65,12 @@ var TypingTest = {
                     }
                 } else {
                     TypingTest.animationTimeLeft -= 0.1;
+                    document.getElementById('count-anim').innerHTML = TypingTest.animationTimeLeft.toFixed(0);
                 }
             }, 100);
             startButton.blur();
             document.getElementById('start-button').disabled = true;
+            TypingTest.animation();
         };
         var resetButton = document.getElementById('reset-button');
         resetButton.onclick = function () {
@@ -399,10 +401,16 @@ var TypingTest = {
         linearChart.render();
 
     },
-    animate: function() {
+    animation: function() {
+        document.getElementById('circle-anim').style.display = 'block';
         document.getElementById('count-anim').classList += 'count-anim';
         document.getElementById('l-half-anim').classList += 'l-half-anim';
         document.getElementById('r-half-anim').classList += 'r-half-anim';
+        setTimeout(function () {
+            document.getElementById('circle-anim').style.display = 'none';
+            document.getElementById('test-text').style.color = 'black';
+            TypingTest.enteredTextInDOM.innerHTML = "";
+        }, 5000);
     }
 };
 TypingTest.init();

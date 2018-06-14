@@ -231,13 +231,23 @@ button[disabled], .btn.disabled, .btn[disabled] {
 /* -- CIRCLE -- */
 
 .circle-anim {
+    display: none;
     width: 100px;
     height: 100px;
     position: relative;
     border-radius: 999px;
     box-shadow: inset 0 0 0 20px rgba(255,255,255,0.5);
 }
-
+#parent-anim {
+    position: relative;
+}
+#circle-container-anim {
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 100px;
+    left: 50%;
+}
 .l-half-anim, .r-half-anim {
     float: left;
     width: 50%;
@@ -274,6 +284,9 @@ button[disabled], .btn.disabled, .btn[disabled] {
     -webkit-animation-name: r-rotate;
 }
 
+#test-text {
+    color: rgba(255,255,255,0);
+}
 /* -- TIMER -- */
 
 .count-anim {
@@ -286,6 +299,6 @@ button[disabled], .btn.disabled, .btn[disabled] {
     font-family: Helvetica;
     color: #fff;
     z-index: 2;
-    -webkit-animation: fadeout .5s 21s 1 linear;
+    -webkit-animation: fadeout 0s 5s 1 linear;
     -webkit-animation-fill-mode: forwards;
 }
