@@ -388,7 +388,11 @@ var TypingTest = {
         document.getElementById('linear-chart').style.height = "370px";
         linearChart.render();
 
-
+    },
+    animate: function() {
+        document.getElementById('count-anim').classList += 'count-anim';
+        document.getElementById('l-half-anim').classList += 'l-half-anim';
+        document.getElementById('r-half-anim').classList += 'r-half-anim';
     }
 };
 TypingTest.init();
@@ -414,6 +418,5 @@ function sendRequest(){
            },
     success:function(){ }
     });
-
-
 }
+

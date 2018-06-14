@@ -62,6 +62,12 @@
         <div class="col-md-10 col-md-offset-1 col-sm-offset-1 col-sm-10 col-xs-offset-1 col-xs-10" id="text-wrapper" th:if="${textsInDB}==true">
             <p id="text-id" hidden th:text="${text.getId()}"></p>
             <p id="test-text" class="texts" th:text="${text.getText()}"></p>
+            <div class="circle-anim center-anim">
+                <div  id="count-anim">5</div>
+                <div  id="l-half-anim"></div>
+                <div  id="r-half-anim"></div>
+            </div>
+
         </div>
         <div class="col-md-10 col-md-offset-1" th:if="${textsInDB}==false">
             <p class="texts">There is no texts in database!</p>
