@@ -25,10 +25,20 @@ public class MainController implements ErrorController {
 
     @RequestMapping(value = {"/", PATH})
     public String home(Model model) {
+        boolean textsInDB;
         List<Text> texts = mainService.getAllTexts();
-        Random random = new Random();
-        Text text = texts.get(random.nextInt(texts.size()));
-        model.addAttribute("text", text);
+
+        if(texts.isEmpty()) {
+            textsInDB = false;
+        }
+        else {
+            textsInDB = true;
+            Random random = new Random();
+            Text text = texts.get(random.nextInt(texts.size()));
+            model.addAttribute("text", text);
+        }
+
+        model.addAttribute("textsInDB", textsInDB);
         return "index";
     }
 
@@ -40,9 +50,8 @@ public class MainController implements ErrorController {
 
     @RequestMapping(value = "/database", method = RequestMethod.POST)
     public String addToDatabase(Model model, String userName, int textId, Double score) {
-        boolean added = mainService.addScoreForUser(userName, textId, score);
+        mainService.addScoreForUser(userName, textId, score);
         model.addAttribute("textList", mainService.getScoresForAllTexts());
-        model.addAttribute("added", added);
         return "database";
     }
 

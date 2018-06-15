@@ -16,6 +16,7 @@ import typingtest.typingtest.data.service.TextService;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 
 @RunWith(SpringRunner.class)
 public class TextServiceTest {
@@ -34,11 +35,11 @@ public class TextServiceTest {
     @MockBean
     private TextRepository textRepository;
 
-
     @Test
     public void givenText_WhenGetText_ThenTextShouldBeFound() {
         // given
         Text text = new Text("text","author");
+        text.setId(1L);
         Mockito.when(textRepository.findById(text.getId())).thenReturn(java.util.Optional.of(text));
 
         // when
@@ -46,6 +47,22 @@ public class TextServiceTest {
 
         // then
         assertThat(receivedText).isEqualTo(text);
+    }
+
+    @Test
+    public void givenNoText_WhenGetText_ThenExceptionShouldBeThrown() {
+        // given
+        Long textId = 1L;
+        Mockito.when(textRepository.findById(textId)).thenReturn(null);
+
+        // when
+        try {
+            textService.getText(textId);
+        }
+        // then
+        catch (Exception e) {
+            assertThat(e).isInstanceOf(NullPointerException.class);
+        }
     }
 
     @Test
@@ -62,7 +79,22 @@ public class TextServiceTest {
         List<Text> allTexts = textService.getAllTexts();
 
         // then
+        assertThat(allTexts).isNotNull();
+        assertThat(allTexts).isNotEmpty().hasSize(3);
         assertThat(allTexts).isEqualTo(texts);
+    }
+
+    @Test
+    public void givenNoTexts_WhenGetAllTexts_ThenReturnEmptyList() {
+        // given
+        Mockito.when(textRepository.findAll()).thenReturn(new ArrayList<>());
+
+        // when
+        List<Text> allTexts = textService.getAllTexts();
+
+        // then
+        assertThat(allTexts).isNotNull();
+        assertThat(allTexts).isEmpty();
     }
 
     @Test
@@ -76,18 +108,17 @@ public class TextServiceTest {
         User user2 =  new User("user2");
         User user3 =  new User("user3");
 
-        user1.setId(1L);
-        user2.setId(2L);
-        user3.setId(3L);
-
+        Double score1 = 23.4;
         object1[0] = user1;
-        object1[1] = 23.4;
+        object1[1] = score1;
 
+        Double score2 = 4.4;
         object2[0] = user2;
-        object2[1] = 4.4;
+        object2[1] = score2;
 
+        Double score3 = 65.1;
         object3[0] = user3;
-        object3[1] = 65.1;
+        object3[1] = score3;
 
         List<Object[]> list = new ArrayList<>();
         list.add(object1);
@@ -102,32 +133,36 @@ public class TextServiceTest {
         Map<User, Double> scoresForText = textService.getScoresForText(textId);
 
         // then
-        Map<User, Double> map = new HashMap<>();
-        map.put(user1, 23.4);
-        map.put(user2, 4.4);
-        map.put(user3, 65.1);
-
-        assertThat(scoresForText).isEqualTo(map);
+        assertThat(scoresForText).isNotNull();
+        assertThat(scoresForText).isNotEmpty().hasSize(3);
+        assertThat(scoresForText).containsExactly(entry(user3, score3), entry(user1, score1), entry(user2, score2));
     }
 
     @Test
-    public void givenScores_WhenGetBestScoresForText_ThenReturnProperScores() {
-        // given
-        List<Double> list = new ArrayList<>();
-        Random random = new Random();
-        for(int i = 0; i < 10; i++)
-            list.add(random.nextDouble() * 100);
-
-        list.sort(Collections.reverseOrder());
-
+    public void givenNoScores_WhenGetScoresForText_ThenReturnEmptyMap() {
+        //given
         Long textId = 1L;
-
-        Mockito.when(textRepository.getBestScoresForText(textId)).thenReturn(list);
+        Mockito.when(textRepository.getScoresForText(textId)).thenReturn(new ArrayList<>());
 
         // when
-        List<Double> bestScoresForText = textService.getBestScoresForText(textId);
+        Map<User, Double> scoresForText = textService.getScoresForText(textId);
 
         // then
-        assertThat(bestScoresForText).isEqualTo(list);
+        assertThat(scoresForText).isNotNull();
+        assertThat(scoresForText).isEmpty();
+    }
+
+    @Test
+    public void givenNoText_WhenGetScoresForText_ThenReturnEmptyMap() {
+        //given
+        Long textId = 1L;
+        Mockito.when(textRepository.getScoresForText(textId)).thenReturn(null);
+
+        // when
+        Map<User, Double> scoresForText = textService.getScoresForText(textId);
+
+        // then
+        assertThat(scoresForText).isNotNull();
+        assertThat(scoresForText).isEmpty();
     }
 }

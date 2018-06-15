@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>DATABASE</title>
     <link rel="icon" href="icons/mainIcon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}">
@@ -31,13 +31,6 @@
 </nav>
 <div class="container">
         <h1 class="text-center stats-header">Best scores</h1>
-        <div class="alert alert-success" role="alert" th:if="${added} == true">
-            <strong>Well done!</strong> Your score is good enough to be added to database!
-        </div>
-        <div class="alert alert-danger" role="alert" th:if="${added} == false">
-            <strong>Oh snap!</strong> Your score is too low to be added to database. Try again!
-        </div>
-
         <div th:if="${textList}">
             <div th:each="text: ${textList}" class="database-item">
                 <div class="col-md-7">

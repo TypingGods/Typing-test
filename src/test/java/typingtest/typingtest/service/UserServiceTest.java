@@ -46,4 +46,20 @@ public class UserServiceTest {
         // then
         assertThat(receivedUser).isEqualTo(user);
     }
+
+    @Test
+    public void givenNoUser_WhenGetUser_ThenExceptionShouldBeThrown() {
+        // given
+        Long userId = 1L;
+        Mockito.when(userRepository.findById(userId)).thenReturn(null);
+
+        // when
+        try {
+            userService.getUser(userId);
+        }
+        // then
+        catch (Exception e) {
+            assertThat(e).isInstanceOf(NullPointerException.class);
+        }
+    }
 }

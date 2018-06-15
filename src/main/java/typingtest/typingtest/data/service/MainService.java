@@ -27,22 +27,14 @@ public class MainService {
         this.userService = userService;
     }
 
-    public Text getText(int textId) {
-        return textService.getText((long) textId);
-    }
-
     public List<Text> getAllTexts() {
         return textService.getAllTexts();
-    }
-
-    public Map<User,Double> getScoresForText(int textId) {
-        return textService.getScoresForText((long) textId);
     }
 
     public Map<Text, Map<User,Double>> getScoresForAllTexts() {
         Map<Text, Map<User,Double>>  map = new TreeMap<>(Comparator.comparing(Text::getId));
         for(Text text: getAllTexts())
-            map.put(text, getScoresForText(Math.toIntExact(text.getId())));
+            map.put(text, textService.getScoresForText(text.getId()));
         return map;
     }
 

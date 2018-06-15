@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>TYPING TEST</title>
     <link rel="icon" href="icons/mainIcon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -32,7 +32,7 @@
 </nav>
 <div class="container-fluid test-containers" id="test-space">
     <div id="test-wrapper">
-        <div class="row">
+        <div class="row" th:if="${textsInDB}==true">
             <div class="btn-group col-md-3 col-xs-5">
                 <button type="button" class="btn btn-primary btn-lg" id="start-button">Start</button>
                 <button type="button" class="btn btn-primary btn-lg" id="reset-button">Reset</button>
@@ -43,7 +43,7 @@
                 </div>
         </div>
         <h2 class="text-center title-header">TYPING TEST</h2>
-        <div class="row" id="typingPanel">
+        <div class="row" id="typingPanel" th:if="${textsInDB}==true">
             <div class="col-md-2 col-md-offset-3 col-xs-4 text-center">
                 <span id="speed">0.00</span>
             </div>
@@ -58,15 +58,25 @@
             <div class="col-md-2 col-xs-4 text-center units" id="unitTime">SEC</div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1" id="text-wrapper">
+    <div class="row" id="parent-anim">
+        <div class="col-md-10 col-md-offset-1 col-sm-offset-1 col-sm-10 col-xs-offset-1 col-xs-10" id="text-wrapper" th:if="${textsInDB}==true">
             <p id="text-id" hidden th:text="${text.getId()}"></p>
             <p id="test-text" class="texts" th:text="${text.getText()}"></p>
+        </div>
+        <div id="circle-container-anim">
+            <div id="circle-anim" class="circle-anim center-anim">
+                <div  id="count-anim"></div>
+                <div  id="l-half-anim"></div>
+                <div  id="r-half-anim"></div>
+            </div>
+        </div>
+        <div class="col-md-10 col-md-offset-1" th:if="${textsInDB}==false">
+            <p class="texts">There is no texts in database!</p>
         </div>
     </div>
 </div>
 
-<div class="container-fluid test-containers" id="user-space">
+<div class="container-fluid test-containers" id="user-space" th:if="${textsInDB}==true">
         <div class="row" id="user-input-bordering">
             <div class="col-md-10 col-md-offset-1" id="user-input-wrapper">
                 <p id="entered-text" class="texts">
@@ -138,7 +148,7 @@
                 </div>
                 <div class="modal-body">
                     <label for="nickname-input" class="col-form-label label-custom">Insert your name: </label>
-                    <input type="text" name="nickname" id="nickname-input" class="form-control">
+                    <input type="text" name="nickname" id="nickname-input" class="form-control" maxlength="15">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary center-block" onclick="sendRequest()">Confirm</button>
