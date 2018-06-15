@@ -1,16 +1,14 @@
 matrix:
   include:
     -language: java
-    jdk: 
-      - oraclejdk8
-    script:
-      - mvn test
+    jdk: oraclejdk8
+    script: mvn test
     install:
-      - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+    - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
     dd:
-      - openssl aes-256-cbc -K $encrypted_81e76d1e75c0_key -iv $encrypted_81e76d1e75c0_iv
-        -in src/main/resources/application.properties.enc -out src/main/resources/application.properties -d
-
+    - openssl aes-256-cbc -K $encrypted_81e76d1e75c0_key -iv $encrypted_81e76d1e75c0_iv
+      -in src/main/resources/application.properties.enc -out src/main/resources/application.properties -d
+     
     -language: node_js
     node_js:
       - 0.8
