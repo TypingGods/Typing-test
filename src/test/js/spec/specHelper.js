@@ -12,6 +12,9 @@ function setTestToStart() {
     TypingTest.wrongLetters = 0;
     TypingTest.initialTime = 120;
     TypingTest.timeLeft = 0;
+    TypingTest.animationTimeLeft = 5;
+    TypingTest.listenersSet = false;
+    TypingTest.testStarted = false;
 
     TypingTest.currentCheckPoint = 1;
     TypingTest.lastCheckPoint = 0;
