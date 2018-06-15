@@ -46,7 +46,7 @@ var TypingTest = {
             if(typeof TypingTest.counter !== undefined)
                 clearInterval(TypingTest.counter);
             TypingTest.counter = setInterval(function () {
-                if (TypingTest.animationTimeLeft <= 0) {
+                if (TypingTest.animationTimeLeft <= 0.1) {
                     if (!TypingTest.listenersSet) {
                         window.addEventListener("keydown", TypingTest.readLetter);
                         window.addEventListener("keypress", TypingTest.readLetter);
@@ -120,6 +120,7 @@ var TypingTest = {
                 newNode.innerHTML = enteredLetter;
                 if (enteredLetter === TypingTest.testText.charAt(TypingTest.currentLetter)) {
                     newNode.style["background-color"] = "green";
+                    TypingTest.typingPace();
                     TypingTest.correctLetters += 1;
                 } else {
                     newNode.style["background-color"] = "red";
@@ -135,12 +136,11 @@ var TypingTest = {
                 if (TypingTest.enteredTextInDOM.childElementCount > 0) {
                     TypingTest.currentLetter -= 1;
                     if (TypingTest.enteredTextInDOM.lastChild.style['background-color'] === 'green') {
-                        TypingTest.correctLetters -=1;
+                        TypingTest.correctLetters -= 1;
                     }
                     TypingTest.enteredTextInDOM.removeChild(TypingTest.enteredTextInDOM.lastChild);
                 }
             }
-            TypingTest.typingPace();
         }
     },
     typingSpeedCPM: function () {
