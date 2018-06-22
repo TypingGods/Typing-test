@@ -30,6 +30,8 @@ You can check out this application [here](https://typing-test-app.herokuapp.com/
 
 [Sequence diagram](https://user-images.githubusercontent.com/20689930/41751051-923b6cd8-75bf-11e8-8666-fde24a0425a7.jpg)
 
+[Testing](https://docs.google.com/document/d/1TlIJTrGfNAV7CPTbN6msvJXElYOuzVlHm9mMFnloHYg/edit?usp=sharing)
+
 What is extraordinary in our project?
 * responsiveness of the website
 * table displaying the 30 best results
