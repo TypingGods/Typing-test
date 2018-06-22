@@ -21,6 +21,22 @@ You can check out this application [here](https://typing-test-app.herokuapp.com/
 * [Maven](https://maven.apache.org/) - Dependency Management
 * [Bootstrap](http://getbootstrap.com/) - Extensive list of components and Bundled Javascript plugins.
 
+## Documentation
+[IEEE Software Requirements Specification](https://docs.google.com/document/d/1gtijNggsb1ryMTQBOn984fwB9SoeswUhaqNqtDQxV9A/edit#heading=h.qp60vrpn0onc)
+
+[Scope of responsibilities of individual team members](https://docs.google.com/document/d/1hDKso2a6WsHHA7Pzz_2sO_GDTsVuZymZuJLqMygQ6mU/edit)
+
+[Activity diagram](https://user-images.githubusercontent.com/20689930/41751050-921e2358-75bf-11e8-83c4-bf562d0a8845.jpg)
+
+[Sequence diagram](https://user-images.githubusercontent.com/20689930/41751051-923b6cd8-75bf-11e8-8666-fde24a0425a7.jpg)
+
+What is extraordinary in our project?
+* responsiveness of the website
+* table displaying the 30 best results
+* attractive database containing photos, text authors and much more
+* modern design of the website
+
+
 ## Authors
 
 * **Eryk** - *Team Leader* - [erykjarocki](https://github.com/erykjarocki)
